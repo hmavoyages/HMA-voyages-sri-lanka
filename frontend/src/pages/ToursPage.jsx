@@ -157,7 +157,7 @@ const days = [
     "Koslanda",
     ["Ravana Falls", "Secret waterfall & Pallewela Ella Falls", "Visit Koslanda village", "Evening cooking lesson & dinner"],
     "Ella → Koslanda",
-    ["https://images.unsplash.com/photo-1614325606901-56f8f1a80bd1?q=80&w=1600&auto=format&fit=crop"]
+    ["https://raw.githubusercontent.com/hmavoyages/HMA-voyages-sri-lanka/refs/heads/main/Images/Gemini_Generated_Image_xjymgexjymgexjym.png"]
   ),
   day(
     8,
