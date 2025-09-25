@@ -47,7 +47,6 @@ const HeroContainer = styled.section`
   align-items: center;
   justify-content: center;
   text-align: center;
-  color: white;
   margin-top: 120px;
   position: relative;
   overflow: hidden;
@@ -89,7 +88,7 @@ const HeroContent = styled.div`
 const MainTitle = styled.h1`
   font-size: clamp(3rem, 8vw, 5.5rem);
   margin-bottom: 30px;
-  font-weight: 300;
+  font-weight: 350;
   text-shadow: 
     0 4px 12px rgba(0,0,0,0.4),
     0 8px 24px rgba(0,0,0,0.2);
@@ -348,6 +347,7 @@ const Hero = () => {
   return (
     <HeroContainer>
       <HeroContent>
+        <br/>
         <MainTitle>
           Experience the <MainTitleHighlight>charm</MainTitleHighlight> of Sri Lanka
         </MainTitle>
@@ -357,6 +357,7 @@ const Hero = () => {
         
         <ButtonGroup>
           <SecondaryButton to="/tours">Explore Tours</SecondaryButton>
+          <SecondaryButton to="https://api.whatsapp.com/send/?phone=%2B94789126818&text=Hi%2Ccan%20i%20have%20more%20details%20about%20HMAVoyages%20tour%20packages&type=phone_number&app_absent=0">Contact Us</SecondaryButton>
         </ButtonGroup>
         
         <Features>
@@ -379,10 +380,6 @@ const Hero = () => {
         </Features>
         <br></br>
       </HeroContent>
-      
-      <ScrollIndicator>
-        ↓
-      </ScrollIndicator>
     </HeroContainer>
   );
 };

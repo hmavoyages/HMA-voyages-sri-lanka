@@ -34,7 +34,7 @@ import tour1Image8 from "../assets/images/1/8.jpeg";
 
 
 
-const ToursPage = () => {
+const GalleryPage = () => {
   const [activeFilter, setActiveFilter] = useState("All");
 
   const filters = ["All", "Cultural", "Adventure", "Beach", "Wildlife", "Luxury", "Budget"];
@@ -114,6 +114,8 @@ const ToursPage = () => {
       <Container maxWidth="lg">
         {/* Page Header */}
         <Box textAlign="center" mb={5}>
+          <br />
+          <br />
           <Typography variant="h3" fontWeight="bold" gutterBottom color="primary.main">
             Discover Sri Lanka Tours
           </Typography>
@@ -285,4 +287,4 @@ const ToursPage = () => {
   );
 };
 
-export default ToursPage;
+export default GalleryPage;

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Hero from '../components/Hero';
 import Advantages from '../components/Advantages';
 import TestimonialsGrid from '../components/Testimonials';
+import {Box,} from "@mui/material";
 
 const HomeContainer = styled.div`
   width: 100%;
@@ -89,7 +90,7 @@ const TestimonialsSection = styled(SectionWrapper)`
 
 const HomePage = () => {
   return (
-    <HomeContainer>
+    <Box>
       <SectionWrapper>
         <Hero />
       </SectionWrapper>
@@ -113,7 +114,7 @@ const HomePage = () => {
       <TestimonialsSection>
         <TestimonialsGrid />
       </TestimonialsSection>
-    </HomeContainer>
+    </Box>
   );
 };
 

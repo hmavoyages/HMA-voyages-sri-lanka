@@ -10,6 +10,7 @@ import PracticalInfoPage from './pages/PracticalInfoPage';
 import AgencyPage from './pages/AgencyPage';
 import BlogPage from './pages/BlogPage';
 import ContactPage from './pages/ContactPage';
+import GalleryPage from './pages/Gallery';
 import './App.css';
 
 const AppContainer = styled.div`
@@ -22,7 +23,6 @@ const AppContainer = styled.div`
 `;
 
 const MainContent = styled.main`
-  flex: 1;
 `;
 
 function App() {
@@ -39,6 +39,7 @@ function App() {
             <Route path="/agency" element={<AgencyPage />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/gallery" element={<GalleryPage />} />
           </Routes>
         </MainContent>
         <Footer />

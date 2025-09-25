@@ -159,7 +159,7 @@ const Footer = () => {
         {/* Footer Bottom */}
         <Box textAlign="center">
           <Typography variant="body2" color="grey.500">
-            © 2024 MaiGlobe Travels. All rights reserved. |{" "}
+            © 2024 HMA Voyages. All rights reserved. |{" "}
             <Link href="/privacy-policy" color="inherit" underline="hover">
               Privacy Policy
             </Link>{" "}

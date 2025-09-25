@@ -321,53 +321,25 @@ const Header = () => {
             to="/tours" 
             className={location.pathname === '/tours' ? 'active' : ''} 
           >
-            Tours
-          </NavLink>
-          {/*<NavLink 
-            to="/guide" 
-            className={location.pathname === '/guide' ? 'active' : ''} 
-          >
-            Travel Guide
+            Tour Packages
           </NavLink>
           <NavLink 
-            to="/practical-info" 
-            className={location.pathname === '/practical-info' ? 'active' : ''} 
+            to="/gallery" 
+            className={location.pathname === '/gallery' ? 'active' : ''} 
+            onClick={closeMenu}
           >
-            Practical Info
+            Gallery
           </NavLink>
           <NavLink 
-            to="/agency" 
-            className={location.pathname === '/agency' ? 'active' : ''} 
-          >
-            Agency
-          </NavLink>
-          <NavLink 
-            to="/blog" 
-            className={location.pathname === '/blog' ? 'active' : ''} 
-          >
-            Blog
-          </NavLink>*/}
-          <NavLink 
-            to="/contact" 
-            className={location.pathname === '/contact' ? 'active' : ''} 
+            to="https://api.whatsapp.com/send/?phone=%2B94789126818&text=Hi%2Ccan%20i%20have%20more%20details%20about%20HMAVoyages%20tour%20packages&type=phone_number&app_absent=0" 
+            className={location.pathname === 'https://api.whatsapp.com/send/?phone=%2B94789126818&text=Hi%2Ccan%20i%20have%20more%20details%20about%20HMAVoyages%20tour%20packages&type=phone_number&app_absent=0' ? 'active' : ''} 
           >
             Contact
           </NavLink>
         </DesktopNav>
         
         <RightSection>
-          {/*<ContactInfo>
-            <ContactItem>
-              <span>📍</span>
-              <span>Colombo & Kandy</span>
-            </ContactItem>
-            <ContactItem>
-              <span>🇱🇰</span>
-              <span>Local Experts</span>
-            </ContactItem>
-          </ContactInfo>*/}
-          
-          <GetQuoteButton to="/contact">
+          <GetQuoteButton to="https://api.whatsapp.com/send/?phone=%2B94789126818&text=Hi%2Ccan%20i%20have%20more%20details%20about%20HMAVoyages%20tour%20packages&type=phone_number&app_absent=0">
             Contact
           </GetQuoteButton>
           
@@ -389,46 +361,25 @@ const Header = () => {
             className={location.pathname === '/tours' ? 'active' : ''} 
             onClick={closeMenu}
           >
-            Tours
+            Tour Packages
           </NavLink>
           <NavLink 
-            to="/guide" 
-            className={location.pathname === '/guide' ? 'active' : ''} 
+            to="/gallery" 
+            className={location.pathname === '/gallery' ? 'active' : ''} 
             onClick={closeMenu}
           >
-            Travel Guide
+            Gallery
           </NavLink>
           <NavLink 
-            to="/practical-info" 
-            className={location.pathname === '/practical-info' ? 'active' : ''} 
-            onClick={closeMenu}
-          >
-            Practical Info
-          </NavLink>
-          <NavLink 
-            to="/agency" 
-            className={location.pathname === '/agency' ? 'active' : ''} 
-            onClick={closeMenu}
-          >
-            Agency
-          </NavLink>
-          <NavLink 
-            to="/blog" 
-            className={location.pathname === '/blog' ? 'active' : ''} 
-            onClick={closeMenu}
-          >
-            Blog
-          </NavLink>
-          <NavLink 
-            to="/contact" 
-            className={location.pathname === '/contact' ? 'active' : ''} 
+            to="https://api.whatsapp.com/send/?phone=%2B94789126818&text=Hi%2Ccan%20i%20have%20more%20details%20about%20HMAVoyages%20tour%20packages&type=phone_number&app_absent=0" 
+            className={location.pathname === 'https://api.whatsapp.com/send/?phone=%2B94789126818&text=Hi%2Ccan%20i%20have%20more%20details%20about%20HMAVoyages%20tour%20packages&type=phone_number&app_absent=0' ? 'active' : ''} 
             onClick={closeMenu}
           >
             Contact
           </NavLink>
           
-          <MobileGetQuoteButton to="/contact" onClick={closeMenu}>
-            Get Quote
+          <MobileGetQuoteButton to="https://api.whatsapp.com/send/?phone=%2B94789126818&text=Hi%2Ccan%20i%20have%20more%20details%20about%20HMAVoyages%20tour%20packages&type=phone_number&app_absent=0" onClick={closeMenu}>
+            Contact
           </MobileGetQuoteButton>
         </MobileNav>
       </NavContainer>

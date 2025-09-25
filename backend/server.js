@@ -1,12 +1,9 @@
 require('dotenv').config();
-require("./GeminiApi");
 const express = require('express');
 const mongoose = require('mongoose');
 const axios = require('axios');
 const cors = require('cors');
 const path = require('path');
-const { GoogleGenerativeAI } = require('@google/generative-ai');
-const exportRoutes = require("./Routes/exportRoutes");
 
 const app = express();
 
@@ -14,22 +11,14 @@ const app = express();
 app.use(express.json());
 app.use(cors({ origin: process.env.CLIENT_URL || '*' })); // Adjust CLIENT_URL in .env
 
-
-
 // Import routes
 const userRoutes = require('./Routes/UserRoutes');
-const authRoutes = require('./Routes/AuthRoutes');
-const maintenanceRequestRoutes = require('./Routes/maintenanceRequestRoutes');
-const router = require('./router');
+const testiRoutes = require('./Routes/TestiRroutes');
 
 // Route middleware
 app.use('/users', userRoutes);
-app.use('/auth', authRoutes);
-app.use('/api/maintenance-requests', maintenanceRequestRoutes);
+app.use('/testimonials', testiRoutes);
 // Define a route handler for '/api' endpoint
-app.use('/api', router);
-app.use('/api/export', exportRoutes);
-// Serve static files (uploaded images)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Error handling middleware
@@ -40,7 +29,7 @@ app.use((err, req, res, next) => {
 
 // MongoDB Connection
 const PORT = process.env.PORT || 5000;
-const DB_URL = process.env.MONGODB_URL;
+const DB_URL = "mongodb+srv://hmav:hmav@cluster0.y3ms3bo.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 const connectDB = async () => {
     try {
