@@ -131,10 +131,7 @@ const days = [
 ],
 "Kandy → Nuwara Eliya",
 [
-  "https://www.attractionsinsrilanka.com/travel-directory/natural-gems-and-gemological-museum/ (image from Gems & Gemological Museum)",  
-  "https://www.attractionsinsrilanka.com/travel-directory/ramboda-falls/ (image of Ramboda Falls)",
-  "https://www.attractionsinsrilanka.com/travel-directory/natural-gems-and-gemological-museum/ (reuse or find tea plantation similar source)",  
-  "https://www.attractionsinsrilanka.com/travel-directory/natural-gems-and-gemological-museum/ (reuse or city stroll image from local site)"
+  "https://lh3.googleusercontent.com/rd-gg-dl/AJfQ9KTofLcIk4EMiyxlSS8Sqg7ArP__RxCm60Zkia6FgGPrmX4I5EmhxQC702ycBdM7_JK8zILAEBcVHxE9qXDY4aMb6azGvmApC8raTRoMb0vmBrGfq9G2mae3TzAsrhFNx9Sv_9VbbwZPj1fBYUuAfmdow_hkwp2hf0OpbHhkvH-TLY_NEkKK0mhXqdn8H47z_Tdy0IBZhgPjNiTdrUPkn7enTjRzdjJgdGVU82dy0xrAtbMuWNtAKMv4pF6eD61c8Dnh-NVMUXGmt_n94Ph9ePlULTf4BWZBTnLutD35qngdOCYkb0B9SCRyFom43Iogv9oKxWQXdTwnpag_UdfIKroJp6_i37OSPxJ4b1KaEY5rUlXuF7yFRGX_y-MkJTlgfowN3LHV2AuvU-Nk9-Acta7hly_nwZ-tn2nJvWO00WgFy5KfKfwuLVzwOI0PeEWrBADYAmUN61KjZFDvBQpdkUEYcce_b9rNypgsL535kvo372tSgSGlDtLwrn2Y4EP26Xs5EZLstHbGykz2MZRy0K00YlidzBy2PcMXRYJafghlfFKDj9qY-NiyPG_f8A-sxAaEqjSalQTcsuPjAhz16QECZ80y3O_4tAL4VtRESjKfRyggaTb6rFor_mKEdmQxHXcawgT57WyGF6O-yht0E-ejbY7NGoOwhFqF0JwtiDyo0GHxjGVaNEphNgymRGWkqxfB_hDBA1UzzVHwF1d5aGC7Ivvxf7xccwYMNbnJofVgVFDFQ0g6G8y1P_SrMt79fIHOUHpifEsTGyNPGH1WZJI7G78mo8zdy5hDN78oDmza0HnObpWRubJAdNWcmt2-p-WMS7ZWVhr12lf5yKHcv4NQks_tdp_iwcq-LxxLyvzqiAHuYWp1WqWqyZ8eDAgKOfwATix1H4U7dBSJPFD3qBZWmJ4wdHEeBOIPChl-fBTv5bpvwF6rSMPGzm9pV91-SdhjcSLoqKN9DRCp6-aIkxJr4muKItL2hnjg-57qUYZll56OWJTNDCiyCCD127_yz7Nnx-CpWyuhhyDk2RUdGLwSlZ1xbPiK8aIYxKWrrGrHqbN7tCE8qnAYpMc5xrjhOTNDdB0mfmY_b7qYTyXm80h0BfECvIKjSMdn61Y_nXBUMwZRQfrmlMwzB_Z4DfRJn9DX03wcAKR20MtdSxy-WayvXOhpQB3NEwxumXo=s1024",
 ]
 
 
