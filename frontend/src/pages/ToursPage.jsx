@@ -165,7 +165,7 @@ const days = [
     "Udawalawe / Tissamaharama",
     ["Swim at Upper Diyaluma Falls", "Picnic lunch in nature", "Buduruwagala rock monastery"],
     "Koslanda → Udawalawe/Tissa",
-    ["https://images.unsplash.com/photo-1616940868204-9d9bd353a0ab?q=80&w=1600&auto=format&fit=crop"]
+    ["https://raw.githubusercontent.com/hmavoyages/HMA-voyages-sri-lanka/refs/heads/main/Images/Gemini_Generated_Image_75t06o75t06o75t0.png"]
   ),
   day(
     9,
