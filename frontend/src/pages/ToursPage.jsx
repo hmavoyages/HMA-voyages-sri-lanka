@@ -148,8 +148,7 @@ const days = [
     ],
     "Nuwara Eliya → Ella",
     [
-      "https://images.unsplash.com/photo-1585129360734-1c6a0a6a8eba?q=80&w=1600&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1607184372029-46c6ebf34fdd?q=80&w=1600&auto=format&fit=crop",
+      "https://raw.githubusercontent.com/hmavoyages/HMA-voyages-sri-lanka/refs/heads/main/Images/Gemini_Generated_Image_q5qg6gq5qg6gq5qg.png",
     ]
   ),
   day(
@@ -488,7 +487,7 @@ export default function ItinerarySL12() {
                               sx={{
                                 borderRadius: 3,
                                 overflow: "hidden",
-                                aspectRatio: { xs: "10 / 10", md: "9 / 9" },
+                                aspectRatio: { xs: "16 / 16", md: "9 / 9" },
                               }}
                             >
                               <CardMedia
