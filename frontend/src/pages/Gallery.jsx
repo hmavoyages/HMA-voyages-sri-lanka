@@ -59,10 +59,8 @@ export default function ToursGallery() {
   };
 
   return (
-    <Box component="section" sx={{ py: { xs: 6, md: 8 } }}>
+    <Box component="section" sx={{ py: { xs: 11, md: 12 } }}>
       <Container maxWidth="lg">
-        <br/>
-        <br/>
         <Stack spacing={1} sx={{ mb: 3 }}>
           <Typography variant="h3" fontWeight={800}>Happy Moments</Typography>
           <Typography variant="subtitle1" color="text.secondary">Explore photos and details from each tour.</Typography>
@@ -70,29 +68,30 @@ export default function ToursGallery() {
 
         <Stack direction={{ xs: "column", md: "row" }} gap={2} sx={{ mb: 3 }}>
           <TextField fullWidth placeholder="Search by title, description, or code (e.g., d12)…" value={q} onChange={(e) => setQ(e.target.value)} />
-          <Stack direction="row" gap={1} flexWrap="wrap">
-            {categories.map((c) => (
-              <Chip
-                key={c}
-                label={c}
-                color={category === c ? "primary" : "default"}
-                onClick={() => setCategory(c)}
-                icon={<CategoryRoundedIcon />}
-                variant={category === c ? "filled" : "outlined"}
-              />
-            ))}
-          </Stack>
-        </Stack>
 
+        </Stack>
+        <Stack direction="row" gap={1} flexWrap="wrap">
+          {categories.map((c) => (
+            <Chip
+              key={c}
+              label={c}
+              color={category === c ? "primary" : "default"}
+              onClick={() => setCategory(c)}
+              icon={<CategoryRoundedIcon />}
+              variant={category === c ? "filled" : "outlined"}
+            />
+          ))}
+        </Stack>
+        <br/>
         <Grid container gap={3}>
           {rows.map((tour, idx) => {
             const hasImages = Array.isArray(tour.images) && tour.images.length > 0;
             return (
-              <Grid key={tour.galleryId} size={{ xs: 12, sm: 6, md: 4 }}>
+              <Grid key={tour.galleryId} size={{ xs: 12, sm: 6, md: 11 }}>
                 <Card sx={{ height: "100%", borderRadius: 3, border: "1px solid", borderColor: "divider", display: "flex", flexDirection: "column" }}>
                   <Box sx={{ p: hasImages ? 1.25 : 3 }}>
                     {hasImages ? (
-                      <ImageList variant="quilted" cols={3} rowHeight={140} gap={6} sx={{ borderRadius: 2, overflow: "hidden" }}>
+                      <ImageList variant="quilted" cols={6} rowHeight={140} gap={6} sx={{ borderRadius: 2, overflow: "hidden" }}>
                         {tour.images.slice(0, 6).map((src, i) => (
                           <ImageListItem key={i} cols={1} rows={1} onClick={() => openLb(idx, i)} sx={{ cursor: "zoom-in" }}>
                             <img src={src} alt={`${tour.title}-img-${i}`} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />

@@ -64,8 +64,6 @@ export default function TourPackages() {
 
         <Stack direction={{ xs: "column", md: "row" }} gap={2} sx={{ mb: 3 }}>
           <TextField fullWidth placeholder="Search by Your Destination" value={q} onChange={(e) => setQ(e.target.value)} />
-          <TextField label="Min days" type="number" value={minDays} onChange={(e) => setMinDays(e.target.value)} sx={{ minWidth: 140 }} />
-          <TextField label="Max days" type="number" value={maxDays} onChange={(e) => setMaxDays(e.target.value)} sx={{ minWidth: 140 }} />
           <Button onClick={() => { setQ(""); setMinDays(""); setMaxDays(""); }}>Reset</Button>
         </Stack>
 

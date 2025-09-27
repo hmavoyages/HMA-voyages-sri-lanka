@@ -263,6 +263,9 @@ const AddTestimonialDialog = ({ open, onClose, onCreated }) => {
     }
   };
 
+  const inputId = "gallery-input";
+
+
   return (
     <Dialog
       open={open}
@@ -503,17 +506,27 @@ const AddTestimonialDialog = ({ open, onClose, onCreated }) => {
               </Typography>
 
               <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
-                <Button component="label" variant="outlined" size="small" startIcon={<ImageRoundedIcon />}>
-                  Add Images
-                  <input
-                    ref={galleryInputRef}
-                    type="file"
-                    accept="image/*"
-                    hidden
-                    multiple
-                    onChange={onGalleryChange}
-                  />
-                </Button>
+                <input
+                  id={inputId}
+                  ref={galleryInputRef}
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={(e) => { onGalleryChange(e); e.target.value = ''; }}
+                  style={{ position: 'absolute', left: -9999, width: 1, height: 1, opacity: 0 }}
+                />
+
+                <label htmlFor={inputId}>
+                  <Button
+                    component="span"
+                    variant="outlined"
+                    size="small"
+                    startIcon={<ImageRoundedIcon />}
+                    type="button"
+                  >
+                    Add Images
+                  </Button>
+                </label>
                 <Typography variant="caption" color="text.secondary">
                   Up to {MAX_IMAGES} images • Max {MAX_IMAGE_MB}MB each
                 </Typography>
@@ -572,7 +585,7 @@ const AddTestimonialDialog = ({ open, onClose, onCreated }) => {
                 </>
               )}
             </Paper>
-          )}          
+          )}
         </Stack>
       </DialogContent>
 
