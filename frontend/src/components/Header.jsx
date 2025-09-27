@@ -308,7 +308,7 @@ const Header = () => {
       
       <NavContainer>
         <Logo to="/" onClick={closeMenu}>
-          H<span className="highlight">M</span>A Voyages</Logo>
+          H<span className="highlight">M</span>Avoyages</Logo>
         
         <DesktopNav>
           <NavLink 
@@ -331,10 +331,11 @@ const Header = () => {
             Gallery
           </NavLink>
           <NavLink 
-            to="https://api.whatsapp.com/send/?phone=%2B94789126818&text=Hi%2Ccan%20i%20have%20more%20details%20about%20HMAVoyages%20tour%20packages&type=phone_number&app_absent=0" 
-            className={location.pathname === 'https://api.whatsapp.com/send/?phone=%2B94789126818&text=Hi%2Ccan%20i%20have%20more%20details%20about%20HMAVoyages%20tour%20packages&type=phone_number&app_absent=0' ? 'active' : ''} 
+            to="/feedbacks" 
+            className={location.pathname === '/feedbacks' ? 'active' : ''} 
+            onClick={closeMenu}
           >
-            Contact
+            Feedbacks
           </NavLink>
         </DesktopNav>
         
@@ -371,13 +372,12 @@ const Header = () => {
             Gallery
           </NavLink>
           <NavLink 
-            to="https://api.whatsapp.com/send/?phone=%2B94789126818&text=Hi%2Ccan%20i%20have%20more%20details%20about%20HMAVoyages%20tour%20packages&type=phone_number&app_absent=0" 
-            className={location.pathname === 'https://api.whatsapp.com/send/?phone=%2B94789126818&text=Hi%2Ccan%20i%20have%20more%20details%20about%20HMAVoyages%20tour%20packages&type=phone_number&app_absent=0' ? 'active' : ''} 
+            to="/feedbacks" 
+            className={location.pathname === '/feedbacks' ? 'active' : ''} 
             onClick={closeMenu}
           >
-            Contact
+            Feedbacks
           </NavLink>
-          
           <MobileGetQuoteButton to="https://api.whatsapp.com/send/?phone=%2B94789126818&text=Hi%2Ccan%20i%20have%20more%20details%20about%20HMAVoyages%20tour%20packages&type=phone_number&app_absent=0" onClick={closeMenu}>
             Contact
           </MobileGetQuoteButton>

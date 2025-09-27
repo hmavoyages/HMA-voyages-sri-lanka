@@ -95,21 +95,9 @@ const HomePage = () => {
         <Hero />
       </SectionWrapper>
       
-      {/*<ThemesSection>
-        <Themes />
-      </ThemesSection>*/}
-      
       <AdvantagesSection>
         <Advantages />
       </AdvantagesSection>
-      
-      {/*<SectionWrapper>
-        <TravelPackages />
-      </SectionWrapper>
-      
-      <ExperiencesSection>
-        <Experiences />
-      </ExperiencesSection>*/}
       
       <TestimonialsSection>
         <TestimonialsGrid />

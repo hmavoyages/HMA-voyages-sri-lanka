@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const ctrl = require('../controllers/TestiController');
+const ctrl = require('../Controllers/TestiController');
 
 // Define routes
 router.post('/',  ctrl.createTestimonial);

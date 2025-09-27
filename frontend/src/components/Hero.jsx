@@ -1,6 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
+import { Stack,
+  Typography,
+  Box,
+  Button,
+  Link,
+
+ } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 
 const fadeInUp = keyframes`
   from {
@@ -34,10 +41,10 @@ const parallaxMove = keyframes`
 const HeroContainer = styled.section`
   background: 
     linear-gradient(135deg, 
-      rgba(26, 71, 42, 0.8) 0%, 
-      rgba(74, 155, 142, 0.6) 30%, 
+      rgba(9, 152, 209, 0.8) 0%, 
+      rgba(0, 255, 213, 0.6) 30%, 
       rgba(212, 175, 55, 0.5) 70%, 
-      rgba(255, 107, 71, 0.4) 100%
+      rgba(231, 255, 144, 1) 100%
     ),
     url('https://static01.nyt.com/images/2019/02/03/travel/03frugal-srilanka01/merlin_148552275_74c0d250-949c-46e0-b8a1-e6d499e992cf-superJumbo.jpg');
   background-size: cover;
@@ -47,7 +54,7 @@ const HeroContainer = styled.section`
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin-top: 120px;
+  margin-top: 80px;
   position: relative;
   overflow: hidden;
   
@@ -352,13 +359,69 @@ const Hero = () => {
           Experience the <MainTitleHighlight>charm</MainTitleHighlight> of Sri Lanka
         </MainTitle>
         <Subtitle>
-          Journey into Sri Lanka’s timeless heritage, golden beaches, and awe-inspiring landscapes with the guidance of our local experts. Let every moment in this tropical paradise become a cherished memory.
+              We are committed to filling your vacation with beautiful memories and making every moment of it enjoyable. "HAPPY MOMENT ALWAYS "
         </Subtitle>
         
-        <ButtonGroup>
-          <SecondaryButton to="/tours">Explore Tours</SecondaryButton>
-          <SecondaryButton to="https://api.whatsapp.com/send/?phone=%2B94789126818&text=Hi%2Ccan%20i%20have%20more%20details%20about%20HMAVoyages%20tour%20packages&type=phone_number&app_absent=0">Contact Us</SecondaryButton>
-        </ButtonGroup>
+<Stack
+            direction="row"
+            spacing={2}
+            useFlexGap
+            flexWrap="wrap"
+            justifyContent="center"
+            sx={{ mb: { xs: 4, md: 6 } }}
+          >
+            <Button
+              component={RouterLink}
+              to="/tours"
+              size="large"
+              variant="contained"
+              sx={{
+                px: { xs: 3, md: 4 },
+                py: { xs: 1.5, md: 1.75 },
+                borderRadius: 999,
+                fontWeight: 700,
+                textTransform: "none",
+                fontSize: { xs: "1rem", md: "1.1rem" },
+                backgroundImage: "linear-gradient(135deg, #ff6b47 0%, #d4af37 100%)",
+                boxShadow: "0 10px 30px rgba(255,107,71,0.4), 0 4px 15px rgba(0,0,0,0.1)",
+                "&:hover": {
+                  transform: { md: "translateY(-3px)" },
+                  boxShadow: "0 20px 40px rgba(255,107,71,0.6), 0 8px 25px rgba(0,0,0,0.15)",
+                },
+              }}
+            >
+              Explore Tours
+            </Button>
+
+            <Button
+              component="a"
+              href="https://api.whatsapp.com/send/?phone=%2B94789126818&text=Hi%2Ccan%20i%20have%20more%20details%20about%20HMAVoyages%20tour%20packages&type=phone_number&app_absent=0"
+              target="_blank"
+              rel="noopener noreferrer"
+              size="large"
+              variant="outlined"
+              sx={{
+                px: { xs: 3, md: 4 },
+                py: { xs: 1.5, md: 1.75 },
+                borderRadius: 999,
+                fontWeight: 700,
+                textTransform: "none",
+                fontSize: { xs: "1rem", md: "1.1rem" },
+                color: "#fff",
+                borderColor: "rgba(255,255,255,0.85)",
+                background: "rgba(255,255,255,0.15)",
+                backdropFilter: "blur(20px)",
+                "&:hover": {
+                  borderColor: "#fff",
+                  background: "rgba(255,255,255,0.25)",
+                  transform: { md: "translateY(-3px)" },
+                  boxShadow: "0 20px 40px rgba(255,255,255,0.2), 0 8px 25px rgba(0,0,0,0.1)",
+                },
+              }}
+            >
+              Contact Us
+            </Button>
+          </Stack>
         
         <Features>
           <Feature>

@@ -14,12 +14,21 @@ app.use(cors({ origin: process.env.CLIENT_URL || '*' })); // Adjust CLIENT_URL i
 // Import routes
 const userRoutes = require('./Routes/UserRoutes');
 const testiRoutes = require('./Routes/TestiRroutes');
+const galleryRoutes = require('./Routes/galleryRoutes');
+const tourPackageRoutes = require('./Routes/tourPackageRoutes');
+
+const uploadRoutes = require('./Routes/upload');
+
+
 
 // Route middleware
 app.use('/users', userRoutes);
 app.use('/testimonials', testiRoutes);
+app.use('/gallery', galleryRoutes);
+app.use('/packages', tourPackageRoutes);
 // Define a route handler for '/api' endpoint
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/upload', uploadRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
