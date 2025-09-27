@@ -27,7 +27,7 @@
   "scripts": {
     "start": "react-scripts start",
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && copy /y dist\\index.html dist\\404.html",
     "preview": "vite preview",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
