@@ -45,7 +45,7 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 
-const API_BASE = "https://hma-voyages-backend.onrender.com/"; // same base you used
+const API_BASE = "https://hma-voyages-backend.onrender.com"; // same base you used
 
 const pageSizeOptions = [6, 12, 20];
 
