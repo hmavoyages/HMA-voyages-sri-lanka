@@ -11,7 +11,7 @@ import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
-const API_BASE = "https://tv3vzvbn-5000.asse.devtunnels.ms";
+const API_BASE = "https://hma-voyages-backend.onrender.com/";
 
 export default function TourPackagesAdmin() {
   const [rows, setRows] = useState([]);

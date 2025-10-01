@@ -10,7 +10,7 @@ const router = express.Router();
 const UPLOAD_DIR = path.join(__dirname, '..', 'uploads');
 fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 
-const API_BASE = "https://tv3vzvbn-5000.asse.devtunnels.ms"; // same base you used
+const API_BASE = "https://hma-voyages-backend.onrender.com"; // same base you used
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, UPLOAD_DIR),
