@@ -4,10 +4,13 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
+
 const router = express.Router();
 
 const UPLOAD_DIR = path.join(__dirname, '..', 'uploads');
 fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+
+const API_BASE = "https://tv3vzvbn-5000.asse.devtunnels.ms"; // same base you used
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, UPLOAD_DIR),
@@ -30,7 +33,7 @@ const upload = multer({
   limits: { fileSize: 8 * 1024 * 1024 },
 });
 
-const fileUrl = (req, filename) => `${req.protocol}://${req.get('host')}/uploads/${filename}`;
+const fileUrl = (req, filename) => `${API_BASE}/uploads/${filename}`;
 
 // ✅ Accept ANY field name
 router.post('/', upload.any(), (req, res) => {

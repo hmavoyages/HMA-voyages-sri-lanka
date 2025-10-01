@@ -13,8 +13,9 @@ import CategoryRoundedIcon from "@mui/icons-material/CategoryRounded";
 import PhotoCameraRoundedIcon from "@mui/icons-material/PhotoCameraRounded";
 import PhotoLibraryRoundedIcon from "@mui/icons-material/PhotoLibraryRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import CircularProgress from "@mui/material/CircularProgress";
 
-const API_BASE = "https://tv3vzvbn-5000.asse.devtunnels.ms";
+const API_BASE = "https://tv3vzvbn-5000.asse.devtunnels.ms"; // same base you used
 
 export default function GalleryAdmin() {
   const [rows, setRows] = useState([]);
@@ -32,6 +33,11 @@ export default function GalleryAdmin() {
   // image uploads
   const [galleryFiles, setGalleryFiles] = useState([]);
   const galleryInputRef = useRef(null);
+
+  // NEW: upload status
+  const [uploading, setUploading] = useState(false);
+  const [uploadPct, setUploadPct] = useState(0);
+  const [uploadError, setUploadError] = useState("");
 
   async function load() {
     setLoading(true);
@@ -74,12 +80,18 @@ export default function GalleryAdmin() {
       isFeatured: false,
     });
     setGalleryFiles([]);
+    setUploadError("");
+    setUploadPct(0);
+    setUploading(false);
     setEditOpen(true);
   };
 
   const startEdit = (row) => {
     setActive({ ...row, images: Array.isArray(row.images) ? row.images : [] });
     setGalleryFiles([]);
+    setUploadError("");
+    setUploadPct(0);
+    setUploading(false);
     setEditOpen(true);
   };
 
@@ -94,22 +106,65 @@ export default function GalleryAdmin() {
     if (galleryInputRef.current) galleryInputRef.current.value = "";
   };
 
-  const uploadImages = async () => {
+  // NEW: Upload with progress (single request for all files to match your /upload endpoint)
+  const uploadImagesWithProgress = async () => {
     if (!galleryFiles.length) return [];
+    setUploading(true);
+    setUploadPct(0);
+    setUploadError("");
+
     const fd = new FormData();
     galleryFiles.forEach((f) => fd.append("images", f));
-    const res = await fetch(`${API_BASE}/upload`, { method: "POST", body: fd });
-    if (!res.ok) throw new Error(`Upload failed (HTTP ${res.status})`);
-    const data = await res.json();
-    return data?.imageUrls || [];
+
+    const urls = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", `${API_BASE}/upload`, true);
+
+      xhr.upload.onprogress = (e) => {
+        if (e.lengthComputable) {
+          const pct = Math.round((e.loaded / e.total) * 100);
+          setUploadPct(pct);
+        }
+      };
+
+      xhr.onload = () => {
+        try {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            const data = JSON.parse(xhr.responseText || "{}");
+            resolve(data?.imageUrls || []);
+          } else {
+            const msg = `Upload failed (HTTP ${xhr.status})`;
+            setUploadError(msg);
+            reject(new Error(msg));
+          }
+        } catch (parseErr) {
+          const msg = "Upload failed: invalid server response.";
+          setUploadError(msg);
+          reject(new Error(msg));
+        }
+      };
+
+      xhr.onerror = () => {
+        const msg = "Network error during upload.";
+        setUploadError(msg);
+        reject(new Error(msg));
+      };
+
+      xhr.send(fd);
+    });
+
+    setUploading(false);
+    setUploadPct(100);
+    return urls;
   };
 
   const save = async () => {
     try {
       setLoading(true);
       let images = active.images || [];
-      // upload new files (append to images)
-      const uploaded = await uploadImages();
+
+      // upload new files (append to images) — shows progress
+      const uploaded = await uploadImagesWithProgress();
       images = [...images, ...uploaded];
 
       const payload = {
@@ -144,12 +199,15 @@ export default function GalleryAdmin() {
       setOk(active.galleryId ? "Updated successfully" : "Created successfully");
       setEditOpen(false);
       setGalleryFiles([]);
+      setUploadError("");
+      setUploadPct(0);
       await load();
     } catch (e) {
       console.error(e);
       setErr(e.message || "Save failed.");
     } finally {
       setLoading(false);
+      setUploading(false);
     }
   };
 
@@ -175,8 +233,8 @@ export default function GalleryAdmin() {
   return (
     <Box component="section" sx={{ py: { xs: 6, md: 8 } }}>
       <Container maxWidth="lg">
-        <br/>
-        <br/>
+        <br />
+        <br />
         <Stack direction={{ xs: "column", sm: "row" }} alignItems={{ xs: "flex-start", sm: "center" }} justifyContent="space-between" gap={2} sx={{ mb: 3 }}>
           <Typography variant="h4" fontWeight={800}>Manage Tour Galleries</Typography>
           <Stack direction="row" gap={1}>
@@ -281,8 +339,10 @@ export default function GalleryAdmin() {
                         onClick={() =>
                           setActive((a) => ({ ...a, images: a.images.filter((_, idx) => idx !== i) }))
                         }
-                        sx={{ position: "absolute", top: 2, right: 2, bgcolor: "rgba(0,0,0,.5)", color: "#fff",
-                          "&:hover": { bgcolor: "rgba(0,0,0,.7)" } }}
+                        sx={{
+                          position: "absolute", top: 2, right: 2, bgcolor: "rgba(0,0,0,.5)", color: "#fff",
+                          "&:hover": { bgcolor: "rgba(0,0,0,.7)" }
+                        }}
                         title="Remove"
                       >
                         <CloseRoundedIcon fontSize="small" />
@@ -307,12 +367,48 @@ export default function GalleryAdmin() {
                 </Typography>
               )}
             </Stack>
+
+            {/* NEW: Upload progress UI */}
+            {uploading && (
+              <Box sx={{ mt: 1 }}>
+                <Stack direction="row" alignItems="center" gap={2}>
+                  <Box sx={{ flex: 1 }}>
+                    <LinearProgress variant="determinate" value={uploadPct} />
+                  </Box>
+                  <Typography variant="caption" sx={{ minWidth: 40, textAlign: "right" }}>
+                    {uploadPct}%
+                  </Typography>
+                </Stack>
+                {galleryFiles.length > 0 && (
+                  <Stack sx={{ mt: 1 }} spacing={0.5}>
+                    {galleryFiles.map((f, i) => (
+                      <Typography key={i} variant="caption" color="text.secondary">
+                        {f.name} ({Math.round(f.size / 1024)} KB)
+                      </Typography>
+                    ))}
+                  </Stack>
+                )}
+              </Box>
+            )}
+            {!!uploadError && (
+              <Alert severity="error" onClose={() => setUploadError("")}>{uploadError}</Alert>
+            )}
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setEditOpen(false)}>Cancel</Button>
-          <Button variant="contained" onClick={save}>Save</Button>
+          <Button onClick={() => setEditOpen(false)} disabled={uploading || loading}>
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            onClick={save}
+            disabled={uploading || loading}
+            startIcon={uploading || loading ? <CircularProgress size={18} color="inherit" /> : null}
+          >
+            {uploading ? "Uploading…" : loading ? "Saving…" : "Save"}
+          </Button>
         </DialogActions>
+
       </Dialog>
 
       {/* Delete dialog */}

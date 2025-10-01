@@ -9,8 +9,7 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors({ origin: ['https://hmavoyages.github.io'], credentials: true }))
-
+app.use(cors({ origin: process.env.CLIENT_URL || '*' })); // Adjust CLIENT_URL in .env
 
 // Import routes
 const userRoutes = require('./Routes/UserRoutes');

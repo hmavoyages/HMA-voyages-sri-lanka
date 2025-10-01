@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import GoogleTranslateSwitch from "../components/GoogleTranslateSwitch";
 
 const HeaderContainer = styled.header`
   background: rgba(255, 255, 255, 0.95);
@@ -302,78 +303,82 @@ const Header = () => {
 
   return (
     <HeaderContainer>
-    {/*<TopBar>
+      {/*<TopBar>
       🌟 Discover Sri Lanka with Expert Local Guides - Book Your Dream Journey Today! 🇱🇰
     </TopBar>*/}
-      
+
       <NavContainer>
         <Logo to="/" onClick={closeMenu}>
           H<span className="highlight">M</span>Avoyages</Logo>
-        
+
         <DesktopNav>
-          <NavLink 
-            to="/" 
-            className={location.pathname === '/' ? 'active' : ''} 
+          <NavLink
+            to="/"
+            className={location.pathname === '/' ? 'active' : ''}
           >
             Home
           </NavLink>
-          <NavLink 
-            to="/tours" 
-            className={location.pathname === '/tours' ? 'active' : ''} 
+          <NavLink
+            to="/tours"
+            className={location.pathname === '/tours' ? 'active' : ''}
           >
             Tour Packages
           </NavLink>
-          <NavLink 
-            to="/gallery" 
-            className={location.pathname === '/gallery' ? 'active' : ''} 
+          <NavLink
+            to="/gallery"
+            className={location.pathname === '/gallery' ? 'active' : ''}
             onClick={closeMenu}
           >
             Gallery
           </NavLink>
-          <NavLink 
-            to="/feedbacks" 
-            className={location.pathname === '/feedbacks' ? 'active' : ''} 
+          <NavLink
+            to="/feedbacks"
+            className={location.pathname === '/feedbacks' ? 'active' : ''}
             onClick={closeMenu}
           >
             Feedbacks
           </NavLink>
         </DesktopNav>
-        
+
         <RightSection>
           <GetQuoteButton to="https://api.whatsapp.com/send/?phone=%2B94789126818&text=Hi%2Ccan%20i%20have%20more%20details%20about%20HMAVoyages%20tour%20packages&type=phone_number&app_absent=0">
             Contact
           </GetQuoteButton>
-          
+
+          <div style={{ padding: "8px 16px", display: "flex", justifyContent: "flex-end" }}>
+            <GoogleTranslateSwitch />
+          </div>
+
           <MenuButton onClick={toggleMenu}>
             <MenuIcon isOpen={isMenuOpen} />
           </MenuButton>
         </RightSection>
-        
+
         <MobileNav isOpen={isMenuOpen}>
-          <NavLink 
-            to="/" 
-            className={location.pathname === '/' ? 'active' : ''} 
+          <NavLink
+            to="/"
+            className={location.pathname === '/' ? 'active' : ''}
             onClick={closeMenu}
           >
             Home
           </NavLink>
-          <NavLink 
-            to="/tours" 
-            className={location.pathname === '/tours' ? 'active' : ''} 
+          <NavLink
+            to="/tours"
+            className={location.pathname === '/tours' ? 'active' : ''}
             onClick={closeMenu}
           >
             Tour Packages
           </NavLink>
-          <NavLink 
-            to="/gallery" 
-            className={location.pathname === '/gallery' ? 'active' : ''} 
+          <NavLink
+            to="/gallery"
+            className={location.pathname === '/gallery' ? 'active' : ''}
             onClick={closeMenu}
           >
             Gallery
           </NavLink>
-          <NavLink 
-            to="/feedbacks" 
-            className={location.pathname === '/feedbacks' ? 'active' : ''} 
+          <NavLink
+            to="/feedbacks"
+            className={location.pathname === '/feedbacks' ? 'active' : ''}
             onClick={closeMenu}
           >
             Feedbacks
@@ -381,6 +386,10 @@ const Header = () => {
           <MobileGetQuoteButton to="https://api.whatsapp.com/send/?phone=%2B94789126818&text=Hi%2Ccan%20i%20have%20more%20details%20about%20HMAVoyages%20tour%20packages&type=phone_number&app_absent=0" onClick={closeMenu}>
             Contact
           </MobileGetQuoteButton>
+
+          <div style={{ padding: "8px 16px", display: "flex", justifyContent: "flex-end" }}>
+            <GoogleTranslateSwitch />
+          </div>
         </MobileNav>
       </NavContainer>
     </HeaderContainer>
