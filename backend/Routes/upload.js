@@ -10,7 +10,7 @@ const router = express.Router();
 const UPLOAD_DIR = path.join(__dirname, '..', 'uploads');
 fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 
-const API_BASE = "https://hma-voyages-backend.onrender.com"; // same base you used
+const API_BASE = "http://localhost:5000"; // same base you used
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, UPLOAD_DIR),
@@ -26,6 +26,23 @@ const fileFilter = (req, file, cb) => {
   if (allowed.has(file.mimetype)) cb(null, true);
   else cb(new Error('Only image files are allowed'));
 };
+
+const IMAGE_EXTS = [".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg"];
+
+router.get("/", async (req, res) => {
+  try {
+    const files = await fs.readdir(UPLOADS_DIR);
+    const images = files.filter(f =>
+      IMAGE_EXTS.includes(path.extname(f).toLowerCase())
+    );
+
+    // return filenames only; the front-end will append /uploads/<name>
+    return res.json(images);
+  } catch (err) {
+    console.error("Error reading uploads dir:", err);
+    return res.status(500).json({ error: "Cannot read uploads directory" });
+  }
+});
 
 const upload = multer({
   storage,

@@ -23,7 +23,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const API_BASE = "https://hma-voyages-backend.onrender.com";
+const API_BASE = "https://hmavoyages.com";
 const WA_NUMBER = "+94763011488";
 
 const fadeIn = {

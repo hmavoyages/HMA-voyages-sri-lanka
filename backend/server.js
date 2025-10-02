@@ -19,8 +19,6 @@ const tourPackageRoutes = require('./Routes/tourPackageRoutes');
 
 const uploadRoutes = require('./Routes/upload');
 
-
-
 // Route middleware
 app.use('/users', userRoutes);
 app.use('/testimonials', testiRoutes);

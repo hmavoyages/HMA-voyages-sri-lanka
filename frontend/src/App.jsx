@@ -28,6 +28,7 @@ import TourPackagesAdmin from "./Admin/TourPackagesAdmin";
 import ItineraryDetail from "./pages/DayDetails";
 
 import WhatsAppFloat from './components/WhatsAppFloat';
+import UploadsGallery from './Admin/Images';
 
 
 const AppContainer = styled.div`
@@ -69,6 +70,7 @@ function App() {
             <Route path="/admin/tours"element={<RequireAdmin> <TourPackagesAdmin /> </RequireAdmin> } />
             <Route path="/feedbacks" element={<Feedbacks />} />
             <Route path="/:tourId" element={<ItineraryDetail />} />
+            <Route path="/admin/uploads" element={<RequireAdmin> <UploadsGallery /> </RequireAdmin>} />
 
 
           </Routes>
