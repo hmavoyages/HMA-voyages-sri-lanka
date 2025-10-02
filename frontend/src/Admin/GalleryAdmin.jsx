@@ -15,7 +15,7 @@ import PhotoLibraryRoundedIcon from "@mui/icons-material/PhotoLibraryRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const API_BASE = "https://hmavoyages.com"; // same base you used
+const API_BASE = "https://hma-voyages-backend.onrender.com"; // same base you used
 
 export default function GalleryAdmin() {
   const [rows, setRows] = useState([]);
