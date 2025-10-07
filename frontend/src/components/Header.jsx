@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import styled from 'styled-components';
 import GoogleTranslateSwitch from "../components/GoogleTranslateSwitch";
+import styled, { css } from 'styled-components';
 
 const HeaderContainer = styled.header`
   background: rgba(255, 255, 255, 0.95);
@@ -80,9 +80,9 @@ const DesktopNav = styled.nav`
 
 const MobileNav = styled.nav`
   display: none;
-  
+
   @media (max-width: 768px) {
-    display: ${props => props.isOpen ? 'flex' : 'none'};
+    display: ${p => (p.$open ? 'flex' : 'none')};
     position: absolute;
     top: 100%;
     left: 0;
@@ -255,7 +255,7 @@ const MenuIcon = styled.div`
   background: var(--primary-green);
   position: relative;
   transition: all 0.3s ease;
-  
+
   &::before,
   &::after {
     content: '';
@@ -265,28 +265,22 @@ const MenuIcon = styled.div`
     background: var(--primary-green);
     transition: all 0.3s ease;
   }
-  
-  &::before {
-    top: -8px;
-  }
-  
-  &::after {
-    bottom: -8px;
-  }
-  
-  ${props => props.isOpen && `
-    background: transparent;
-    
-    &::before {
-      top: 0;
-      transform: rotate(45deg);
-    }
-    
-    &::after {
-      bottom: 0;
-      transform: rotate(-45deg);
-    }
-  `}
+  &::before { top: -8px; }
+  &::after { bottom: -8px; }
+
+  ${p =>
+    p.$open &&
+    css`
+      background: transparent;
+      &::before {
+        top: 0;
+        transform: rotate(45deg);
+      }
+      &::after {
+        bottom: 0;
+        transform: rotate(-45deg);
+      }
+    `}
 `;
 
 const Header = () => {
@@ -350,11 +344,11 @@ const Header = () => {
           </div>
 
           <MenuButton onClick={toggleMenu}>
-            <MenuIcon isOpen={isMenuOpen} />
+            <MenuIcon $open={isMenuOpen} />
           </MenuButton>
         </RightSection>
 
-        <MobileNav isOpen={isMenuOpen}>
+        <MobileNav $open={isMenuOpen}>
           <NavLink
             to="/"
             className={location.pathname === '/' ? 'active' : ''}

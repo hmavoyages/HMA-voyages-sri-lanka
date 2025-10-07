@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import { Grid } from '@mui/material';
 import {
   Box,
-  Grid,
   Typography,
   Link,
   IconButton,
@@ -36,7 +36,7 @@ const Footer = () => {
       <Container maxWidth="lg">
         <Grid container spacing={6}>
           {/* Company Info */}
-          <Grid item xs={12} md={3}>
+          <Grid size={{ xs: 12, md: 3 }}> 
             <Typography variant="h5" gutterBottom sx={{ fontWeight: "bold", mb: 2, color: "#79DBDC" }}>
               HMA Voyages
             </Typography>
@@ -61,7 +61,7 @@ const Footer = () => {
           </Grid>
 
           {/* Contact Information */}
-          <Grid item xs={12} md={3}>
+          <Grid size={{ xs: 12, md: 3 }}> 
             <Typography variant="h6" gutterBottom sx={{ color: "#79DBDC" }}>
               Contact Information
             </Typography>
@@ -86,7 +86,7 @@ const Footer = () => {
           </Grid>
 
           {/* Quick Links */}
-          <Grid item xs={12} md={3}>
+          <Grid size={{ xs: 12, md: 3 }}> 
             <Typography variant="h6" gutterBottom sx={{ color: "#79DBDC" }}>
               Quick Links
             </Typography>
@@ -94,6 +94,30 @@ const Footer = () => {
               {[
                 { label: "Tour Packages", href: "/tours" },
                 { label: "About Us", href: "/about" },
+                { label: "Reviews", href: "/feedbacks" },
+                { label: "Gallery", href: "/gallery" },
+              ].map((link, index) => (
+                <Link
+                  key={index}
+                  href={link.href}
+                  underline="hover"
+                  sx={{
+                    color: "grey.300",
+                    transition: "0.3s",
+                    "&:hover": { color: "#79DBDC", ml: 1 },
+                  }}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </Box>
+          </Grid>
+          <Grid size={{ xs: 12, md: 3 }}> 
+            <Typography variant="h6" gutterBottom sx={{ color: "#79DBDC" }}>
+              Settings
+            </Typography>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+              {[
                 { label: "Review Dasboard", href: "/admin/reviews" },
                 { label: "Gallery Dasboard", href: "/admin/gallery" },
                 { label: "Tours Dashboard", href: "/admin/tours" },

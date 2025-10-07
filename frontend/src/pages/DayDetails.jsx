@@ -1,7 +1,8 @@
 // src/pages/ItineraryDetail.jsx
 import React from "react";
+import { Grid } from '@mui/material';
 import {
-  Box, Container, Typography, Grid, Chip, Stack,
+  Box, Container, Typography, Chip, Stack,
   Accordion, AccordionSummary, AccordionDetails,
   Card, CardContent, CardMedia, Divider, Button,
   Tooltip, useMediaQuery, Fab, CircularProgress
@@ -23,7 +24,11 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+// ✅ Map component (from previous step using Google APIs)
+import GoogleRouteMap from "../pages/GoogleRouteMap";
+
 const API_BASE = "https://hma-voyages-backend.onrender.com";
+// Keep plus for display, but strip for wa.me links
 const WA_NUMBER = "+94763011488";
 
 const fadeIn = {
@@ -44,7 +49,43 @@ const baseSliderSettings = {
   appendDots: (dots) => <ul style={{ margin: 0, padding: "8px 0" }}>{dots}</ul>,
 };
 
-const ph = (label) => `https://via.placeholder.com/1200x800?text=${encodeURIComponent(label)}`;
+// 🔒 Robust placeholder generators (no flaky remote host)
+const phSVG = (label) => {
+  const text = (label || "HMA Voyages").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const svg = `
+    <svg xmlns='http://www.w3.org/2000/svg' width='1200' height='800'>
+      <defs>
+        <linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>
+          <stop offset='0%' stop-color='#0f172a'/>
+          <stop offset='100%' stop-color='#111827'/>
+        </linearGradient>
+      </defs>
+      <rect width='1200' height='800' fill='url(#g)'/>
+      <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle'
+            font-family='Inter, Segoe UI, Arial' font-size='48' fill='#f5f5f5'>
+        ${text}
+      </text>
+    </svg>`;
+  return `data:image/svg+xml;utf8,${svg}`;
+};
+const ph = (label) => phSVG(label);
+
+// 🔧 Safe image component: auto-fallback to placeholder on error
+function SafeImg({ src, alt, fallback, ...props }) {
+  const [imgSrc, setImgSrc] = React.useState(src || fallback);
+  React.useEffect(() => setImgSrc(src || fallback), [src, fallback]);
+  return (
+    <Box
+      component="img"
+      alt={alt}
+      src={imgSrc}
+      onError={() => setImgSrc(fallback)}
+      loading="lazy"
+      decoding="async"
+      {...props}
+    />
+  );
+}
 
 export default function ItineraryDetail() {
   const { tourId } = useParams();
@@ -64,12 +105,12 @@ export default function ItineraryDetail() {
     (async () => {
       setLoading(true);
       try {
-        // you can also support slug, e.g. /packages/bySlug/:slug
         const res = await fetch(`${API_BASE}/packages/${encodeURIComponent(tourId)}`);
         const data = await res.json();
-        // support either {data: {...}} or raw object
         const p = data?.data ?? data;
         setPkg(p ?? null);
+      } catch (_e) {
+        setPkg(null);
       } finally {
         setLoading(false);
       }
@@ -90,6 +131,9 @@ export default function ItineraryDetail() {
     autoplay: isXs,
     autoplaySpeed: 3500,
   };
+
+  // sanitize WA number for wa.me (digits only)
+  const waDigits = React.useMemo(() => (WA_NUMBER || "").replace(/\D/g, ""), []);
 
   if (loading) {
     return (
@@ -113,13 +157,16 @@ export default function ItineraryDetail() {
       ? pkg.heroImages
       : [pkg.cover].filter(Boolean);
 
-  // Fallback if no hero images at all
   const safeHeroImages = (heroImages && heroImages.length ? heroImages : [ph(pkg.packageName || "Itinerary")]);
 
-  const dayCountLabel = pkg.dayCount === 1 ? "Day Tour" : `${pkg.dayCount} Days / ${Math.max(pkg.dayCount - 1, 1)} Nights`;
+  const dayCount = Number(pkg.dayCount) || (pkg.days?.length || 1);
+  const dayCountLabel = dayCount === 1 ? "Day Tour" : `${dayCount} Days / ${Math.max(dayCount - 1, 1)} Nights`;
 
   return (
     <Box sx={{ bgcolor: "background.default", color: "text.primary" }}>
+      {/* top anchor so #top works */}
+      <Box id="top" />
+
       {/* HERO */}
       <Box
         sx={{
@@ -134,12 +181,10 @@ export default function ItineraryDetail() {
         <Slider {...heroSlider}>
           {safeHeroImages.map((src, i) => (
             <Box key={i} sx={{ position: "relative", height: { xs: 360, sm: 420, md: 520 } }}>
-              <Box
-                component="img"
+              <SafeImg
                 src={src}
+                fallback={ph(pkg.packageName || "Itinerary")}
                 alt={`${pkg.packageName} hero ${i + 1}`}
-                loading="lazy"
-                decoding="async"
                 sx={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
               />
               <Box
@@ -198,17 +243,17 @@ export default function ItineraryDetail() {
                 color="warning"
                 size={isXs ? "medium" : "large"}
                 startIcon={<MapIcon />}
-                href="#plan"
+                href="#route"
                 sx={{ fontWeight: 700, borderRadius: 2 }}
               >
-                View Plan
+                View Route
               </Button>
               <Button
                 variant="contained"
                 color="success"
                 size={isXs ? "medium" : "large"}
                 startIcon={<WhatsAppIcon />}
-                href={`https://wa.me/${WA_NUMBER}?text=I%27m%20interested%20in%20${encodeURIComponent(pkg.packageName)}%20(${pkg.tourId})`}
+                href={`https://wa.me/${waDigits}?text=I%27m%20interested%20in%20${encodeURIComponent(pkg.packageName)}%20(${pkg.tourId})`}
                 target="_blank"
                 rel="noreferrer"
                 sx={{ fontWeight: 700, borderRadius: 2, textTransform: "none" }}
@@ -220,7 +265,7 @@ export default function ItineraryDetail() {
         </Container>
       </Box>
 
-      {/* HIGHLIGHTS (optional static icons) */}
+      {/* HIGHLIGHTS */}
       <Container maxWidth="lg" sx={{ py: { xs: 3, md: 6 } }}>
         <Grid container spacing={{ xs: 1.5, md: 2 }}>
           {[
@@ -229,7 +274,7 @@ export default function ItineraryDetail() {
             { icon: <ScheduleIcon />, text: pkg.dayCount === 1 ? "Day tour pace" : "Balanced multi-day pace" },
             { icon: <MapIcon />, text: "Handpicked experiences & scenic routes" },
           ].map((h, i) => (
-            <Grid key={i} item xs={12} sm={6} md={3}>
+            <Grid key={i} size={{ xs: 12, sm: 6, md: 3 }}>
               <Card component={motion.div} {...fadeIn} elevation={1} sx={{ height: "100%", borderRadius: 3, p: { xs: 0.25, md: 0 } }}>
                 <CardContent sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
                   <Box sx={{ fontSize: 28, display: "grid", placeItems: "center" }}>{h.icon}</Box>
@@ -241,6 +286,27 @@ export default function ItineraryDetail() {
             </Grid>
           ))}
         </Grid>
+      </Container>
+
+      {/* ROUTE MAP (Google) */}
+      <Container maxWidth="lg" sx={{ pb: { xs: 3, md: 6 } }} id="route">
+        <Typography variant="h4" fontWeight={800} sx={{ mb: { xs: 1.5, md: 2.5 } }}>
+          Route Map
+        </Typography>
+
+        <Card elevation={1} sx={{ borderRadius: 3, overflow: "hidden" }}>
+          <GoogleRouteMap
+            days={pkg.days || []}
+            tourId={pkg.tourId}
+            updatedAt={pkg.updatedAt}
+            height={480}
+          />
+        </Card>
+
+        <Stack direction="row" spacing={1.25} sx={{ mt: 1.5, flexWrap: "wrap" }}>
+          <Chip icon={<MapIcon />} label="Interactive • Drag to explore" size="small" />
+          <Chip icon={<AccessTimeIcon />} label={`${dayCount} day itinerary`} size="small" />
+        </Stack>
       </Container>
 
       {/* ITINERARY */}
@@ -283,25 +349,27 @@ export default function ItineraryDetail() {
 
                 <AccordionDetails sx={{ pt: 0 }}>
                   <Grid container spacing={{ xs: 1.5, md: 3 }}>
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, md: 3 }}>
                       <Slider {...daySlider}>
                         {(d.images && d.images.length ? d.images : [ph(d.title || "Day")]).map((src, i) => (
                           <Box key={i} sx={{ px: { xs: 0.5, md: 0 } }}>
                             <Card sx={{ borderRadius: 3, overflow: "hidden", aspectRatio: { xs: "16/16", md: "9/9" } }}>
                               <CardMedia
-                                component="img"
-                                image={src}
-                                alt={`Day ${(d.day ?? idx + 1)} image ${i + 1}`}
-                                loading="lazy"
-                                decoding="async"
-                                sx={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                component={() => (
+                                  <SafeImg
+                                    src={src}
+                                    fallback={ph(d.title || `Day ${d.day ?? idx + 1}`)}
+                                    alt={`Day ${(d.day ?? idx + 1)} image ${i + 1}`}
+                                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                  />
+                                )}
                               />
                             </Card>
                           </Box>
                         ))}
                       </Slider>
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid size={{ xs: 12, md: 6 }}>
                       <Card sx={{ borderRadius: 3, height: "100%" }} elevation={0}>
                         <CardContent sx={{ pb: { xs: 1.5, md: 2 } }}>
                           <Typography
@@ -343,14 +411,20 @@ export default function ItineraryDetail() {
               color="warning"
               size="large"
               startIcon={<WhatsAppIcon />}
-              href={`https://wa.me/${WA_NUMBER}?text=I%27d%20like%20to%20book%20${encodeURIComponent(pkg.packageName)}%20(${pkg.tourId})`}
+              href={`https://wa.me/${waDigits}?text=I%27d%20like%20to%20book%20${encodeURIComponent(pkg.packageName)}%20(${pkg.tourId})`}
               target="_blank"
               rel="noreferrer"
               sx={{ fontWeight: 800, borderRadius: 2 }}
             >
               Get a Quote on WhatsApp
             </Button>
-            <Button variant="outlined" size="large" startIcon={<MapIcon />} href="#top" sx={{ borderRadius: 2 }}>
+            <Button
+              variant="outlined"
+              size="large"
+              startIcon={<MapIcon />}
+              href="#top"
+              sx={{ borderRadius: 2 }}
+            >
               Back to Top
             </Button>
           </Stack>
@@ -377,7 +451,7 @@ export default function ItineraryDetail() {
               variant="contained"
               color="success"
               startIcon={<WhatsAppIcon />}
-              href={`https://wa.me/${WA_NUMBER}?text=Hi!%20I%27m%20interested%20in%20${encodeURIComponent(pkg.packageName)}%20(${pkg.tourId})`}
+              href={`https://wa.me/${waDigits}?text=Hi!%20I%27m%20interested%20in%20${encodeURIComponent(pkg.packageName)}%20(${pkg.tourId})`}
               target="_blank"
               rel="noreferrer"
               sx={{ fontWeight: 700, borderRadius: 2 }}

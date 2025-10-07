@@ -88,7 +88,7 @@ export default function AdvantagesMUI() {
           ))}
         </Grid>
 
-        {/* Stats Section */}
+        {/* Stats Section 
         <Box
           sx={{
             mt: { xs: 8, md: 10 },
@@ -142,7 +142,7 @@ export default function AdvantagesMUI() {
               ))}
             </Grid>
           </Container>
-        </Box>
+        </Box>*/}
       </Container>
     </Box>
   );

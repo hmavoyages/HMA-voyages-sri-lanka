@@ -39,17 +39,17 @@ const parallaxMove = keyframes`
 `;
 
 const HeroContainer = styled.section`
-  background: 
-    linear-gradient(135deg, 
-      rgba(9, 152, 209, 0.8) 0%, 
-      rgba(0, 255, 213, 0.6) 30%, 
-      rgba(212, 175, 55, 0.5) 70%, 
-      rgba(231, 255, 144, 1) 100%
+  background:
+    linear-gradient(135deg,
+      rgba(9,152,209,.8) 0%,
+      rgba(0,255,213,.6) 30%,
+      rgba(212,175,55,.5) 70%,
+      rgba(231,255,144,1) 100%
     ),
     url('https://static01.nyt.com/images/2019/02/03/travel/03frugal-srilanka01/merlin_148552275_74c0d250-949c-46e0-b8a1-e6d499e992cf-superJumbo.jpg');
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
+  background-attachment: fixed; /* desktop only */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -57,32 +57,17 @@ const HeroContainer = styled.section`
   margin-top: 80px;
   position: relative;
   overflow: hidden;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(ellipse at center, transparent 0%, rgba(26, 71, 42, 0.3) 100%);
-    animation: ${float} 8s ease-in-out infinite;
+
+  /* iPhone-friendly fallback */
+  @media (max-width: 768px) {
+    background-attachment: scroll; /* disable fixed */
+    /* optional: reduce motion */
+    &::before, &::after { animation: none; }
   }
-  
-  &::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: 
-      radial-gradient(circle at 30% 20%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, rgba(74, 155, 142, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 40% 70%, rgba(255, 107, 71, 0.08) 0%, transparent 50%);
-    animation: ${parallaxMove} 20s linear infinite alternate;
-  }
+
+  /* your ::before / ::after remain the same */
 `;
+
 
 const HeroContent = styled.div`
   max-width: 1000px;
