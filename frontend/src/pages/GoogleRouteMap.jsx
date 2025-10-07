@@ -66,7 +66,7 @@ function sampleEvery(arr, step) {
 export default function GoogleRouteMap({ days = [], height = 480 }) {
   const { isLoaded, loadError } = useJsApiLoader({
     id: "gmap-script",
-    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY || "AIzaSyAkdTLFN3-YXiC9Ww3ClQaNccdgLxdTGjo",
     libraries: LIBRARIES,
   });
 
