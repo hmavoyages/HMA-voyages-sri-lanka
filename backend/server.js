@@ -52,7 +52,29 @@ const startServer = async () => {
         // Middleware
         app.use(morgan('dev'));
         app.use(express.json());
-        app.use(cors({ origin: process.env.CLIENT_URL || '*' }));
+        const allowedOrigins = [
+            'https://hmavoyages.com',
+            'https://www.hmavoyages.com',
+            'http://localhost:5173',
+            process.env.CLIENT_URL || '*'
+        ];
+
+        app.use(cors({
+            origin: function (origin, callback) {
+                if (!origin) return callback(null, true);
+                if (allowedOrigins.indexOf(origin) === -1 && allowedOrigins.indexOf('*') === -1) {
+                    // allow * if present in allowedOrigins
+                    // actually if '*' is in list, we can just let it pass, but typically we want specific origins in production
+                    // For now, let's just stick to the specific list + whatever is in env
+                    
+                    // Simple check
+                     var msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+                     return callback(new Error(msg), false);
+                }
+                return callback(null, true);
+            },
+            credentials: true
+        }));
 
         // Routes
         app.use('/users', userRoutes);
