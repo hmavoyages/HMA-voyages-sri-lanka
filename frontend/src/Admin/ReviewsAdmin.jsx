@@ -45,7 +45,7 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 
-const API_BASE = "https://hma-voyages-backend.onrender.com"; // same base you used
+const API_BASE = "http://backend.hmavoyages.com"; // same base you used
 
 const pageSizeOptions = [6, 12, 20];
 
@@ -210,8 +210,8 @@ export default function ReviewsAdmin() {
   return (
     <Box component="section" sx={{ py: { xs: 6, md: 8 } }}>
       <Container maxWidth="lg">
-          <br/>
-          <br/><Stack
+        <br />
+        <br /><Stack
           direction={{ xs: "column", sm: "row" }}
           alignItems={{ xs: "flex-start", sm: "center" }}
           justifyContent="space-between"

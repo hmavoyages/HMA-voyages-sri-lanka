@@ -28,7 +28,7 @@ const Testimonials = () => {
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
-        const res = await fetch(" https://hma-voyages-backend.onrender.com/testimonials");
+        const res = await fetch(" http://backend.hmavoyages.com/testimonials");
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         const items = Array.isArray(data) ? data : Array.isArray(data?.data) ? data.data : [];
@@ -173,7 +173,7 @@ const Testimonials = () => {
                   >
                     <FormatQuoteIcon fontSize="small" />
                   </Box>
-                  <br/>
+                  <br />
 
                   {/* Optional image mosaic */}
                   {Array.isArray(t.images) && t.images.length > 0 && (

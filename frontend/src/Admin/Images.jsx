@@ -1,7 +1,7 @@
 // Images.jsx
 import React, { useEffect, useState } from "react";
 
-const BASE_URL = "https://hma-voyages-backend.onrender.com";
+const BASE_URL = "http://backend.hmavoyages.com";
 const API_URL = `${BASE_URL}/api/uploads`;
 const UPLOADS_URL = `${BASE_URL}/uploads`;
 const IMAGE_EXTS_REGEX = /[\w-]+\.(?:png|jpe?g|gif|webp|svg)/gi;

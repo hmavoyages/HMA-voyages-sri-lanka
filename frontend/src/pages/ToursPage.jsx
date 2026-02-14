@@ -17,7 +17,7 @@ const fadeIn = {
   transition: { duration: 0.45 },
 };
 
-const API_BASE = "https://hma-voyages-backend.onrender.com";
+const API_BASE = "http://backend.hmavoyages.com";
 
 export default function TourPackages() {
   const [rows, setRows] = useState([]);

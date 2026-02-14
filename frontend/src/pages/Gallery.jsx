@@ -10,7 +10,7 @@ import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import CategoryRoundedIcon from "@mui/icons-material/CategoryRounded";
 
-const API_BASE = "https://hma-voyages-backend.onrender.com";
+const API_BASE = "http://backend.hmavoyages.com";
 
 export default function ToursGallery() {
   const [rows, setRows] = useState([]);
@@ -82,7 +82,7 @@ export default function ToursGallery() {
             />
           ))}
         </Stack>
-        <br/>
+        <br />
         <Grid container gap={3}>
           {rows.map((tour, idx) => {
             const hasImages = Array.isArray(tour.images) && tour.images.length > 0;
