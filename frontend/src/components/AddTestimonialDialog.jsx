@@ -31,7 +31,7 @@ import MapRoundedIcon from "@mui/icons-material/MapRounded";
 import StarRoundedIcon from "@mui/icons-material/StarRounded";
 import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
 
-const API_BASE = "http://backend.hmavoyages.com";
+const API_BASE = "https://backend.hmavoyages.com";
 
 // Decode Google ID token safely (JS version – no types)
 function decodeIdToken(credential) {

@@ -10,7 +10,7 @@ import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import CategoryRoundedIcon from "@mui/icons-material/CategoryRounded";
 
-const API_BASE = "http://backend.hmavoyages.com";
+const API_BASE = "https://backend.hmavoyages.com";
 
 export default function ToursGallery() {
   const [rows, setRows] = useState([]);

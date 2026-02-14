@@ -27,7 +27,7 @@ import "slick-carousel/slick/slick-theme.css";
 // ✅ Map component (from previous step using Google APIs)
 import GoogleRouteMap from "../pages/GoogleRouteMap";
 
-const API_BASE = "http://backend.hmavoyages.com";
+const API_BASE = "https://backend.hmavoyages.com";
 // Keep plus for display, but strip for wa.me links
 const WA_NUMBER = "+94763011488";
 

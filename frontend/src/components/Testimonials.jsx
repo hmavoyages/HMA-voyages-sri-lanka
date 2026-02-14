@@ -28,7 +28,7 @@ const Testimonials = () => {
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
-        const res = await fetch(" http://backend.hmavoyages.com/testimonials");
+        const res = await fetch(" https://backend.hmavoyages.com/testimonials");
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         const items = Array.isArray(data) ? data : Array.isArray(data?.data) ? data.data : [];
