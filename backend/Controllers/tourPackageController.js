@@ -3,19 +3,23 @@ const TourPackage = require('../Model/TourPackageModel');
 const toArray = (v) => (Array.isArray(v) ? v : v ? [v] : []);
 const trimStr = (v) => (typeof v === 'string' ? v.trim() : v);
 
-// ID like T001, T012...
 const generateTourId = async () => {
-  const last = await TourPackage
-    .findOne({ tourId: { $regex: /^T\d{3,}$/ } })
-    .sort({ tourId: -1 })
+  const docs = await TourPackage
+    .find({ tourId: { $regex: /^T\d{3,}$/ } })
+    .select('tourId')
     .lean();
 
-  const lastNum =
-    last && typeof last.tourId === 'string' && /^T\d{3,}$/.test(last.tourId)
-      ? parseInt(last.tourId.slice(1), 10)
-      : 0;
+  let maxNum = 0;
+  for (const doc of docs) {
+    if (doc.tourId) {
+      const num = parseInt(doc.tourId.slice(1), 10);
+      if (Number.isFinite(num) && num > maxNum) {
+        maxNum = num;
+      }
+    }
+  }
 
-  const next = String((Number.isFinite(lastNum) ? lastNum : 0) + 1).padStart(3, '0');
+  const next = String(maxNum + 1).padStart(3, '0');
   return `T${next}`;
 };
 

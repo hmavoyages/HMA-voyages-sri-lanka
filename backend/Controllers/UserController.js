@@ -4,11 +4,18 @@ const jwt = require('jsonwebtoken');
 const generateToken = require('../utils/generateToken');
 const saltRounds = 10;
 
-// Generate user ID with leading zeros
 const generateUserId = async () => {
-    const lastUser = await User.findOne().sort({ userId: -1 }).limit(1);
-    const lastId = lastUser ? parseInt(lastUser.userId.slice(1), 10) : 0;
-    const newId = (lastId + 1).toString().padStart(3, '0');
+    const docs = await User.find({ userId: { $regex: /^C\d{3,}$/ } }).select('userId').lean();
+    let maxId = 0;
+    for (const doc of docs) {
+        if (doc.userId) {
+            const num = parseInt(doc.userId.slice(1), 10);
+            if (Number.isFinite(num) && num > maxId) {
+                maxId = num;
+            }
+        }
+    }
+    const newId = (maxId + 1).toString().padStart(3, '0');
     return `C${newId}`;
 };
 

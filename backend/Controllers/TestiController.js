@@ -5,19 +5,25 @@ const Testimonial = require('../Model/TestiModel');
 const MAX_TEXT = 600;
 const MAX_IMAGES = 8;
 
-// Safer ID generator: only consider zero-padded IDs like T001, T123, etc.
 const generateTestimonialId = async () => {
-  const last = await Testimonial
-    .findOne({ testimonialId: { $regex: /^T\d{3,}$/ } })
-    .sort({ testimonialId: -1 })
+  // Fetch all Txxx ids to find the true numeric max
+  // String sort `{ testimonialId: -1 }` fails when reaching T100 vs T99.
+  const docs = await Testimonial
+    .find({ testimonialId: { $regex: /^T\d{3,}$/ } })
+    .select('testimonialId')
     .lean();
 
-  const lastNum =
-    last && typeof last.testimonialId === 'string' && /^T\d{3,}$/.test(last.testimonialId)
-      ? parseInt(last.testimonialId.slice(1), 10)
-      : 0;
+  let maxNum = 0;
+  for (const doc of docs) {
+    if (doc.testimonialId) {
+      const num = parseInt(doc.testimonialId.slice(1), 10);
+      if (Number.isFinite(num) && num > maxNum) {
+        maxNum = num;
+      }
+    }
+  }
 
-  const next = String((Number.isFinite(lastNum) ? lastNum : 0) + 1).padStart(3, '0');
+  const next = String(maxNum + 1).padStart(3, '0');
   return `T${next}`;
 };
 
@@ -91,6 +97,7 @@ exports.createTestimonial = async (req, res) => {
     await newDoc.save();
     res.status(201).json({ message: 'Testimonial created successfully', testimonial: newDoc });
   } catch (error) {
+    console.error("Error creating testimonial:", error);
     res.status(500).json({ message: 'Error creating testimonial', error: error.message });
   }
 };

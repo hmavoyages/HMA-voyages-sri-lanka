@@ -2,18 +2,23 @@ const Gallery = require('../Model/GalleryModel');
 
 const MAX_IMAGES = 12;
 
-// ID like G001, G012...
 const generateGalleryId = async () => {
-  const last = await Gallery.findOne({ galleryId: { $regex: /^G\d{3,}$/ } })
-    .sort({ galleryId: -1 })
+  const docs = await Gallery
+    .find({ galleryId: { $regex: /^G\d{3,}$/ } })
+    .select('galleryId')
     .lean();
 
-  const lastNum =
-    last && typeof last.galleryId === 'string' && /^G\d{3,}$/.test(last.galleryId)
-      ? parseInt(last.galleryId.slice(1), 10)
-      : 0;
+  let maxNum = 0;
+  for (const doc of docs) {
+    if (doc.galleryId) {
+      const num = parseInt(doc.galleryId.slice(1), 10);
+      if (Number.isFinite(num) && num > maxNum) {
+        maxNum = num;
+      }
+    }
+  }
 
-  const next = String((Number.isFinite(lastNum) ? lastNum : 0) + 1).padStart(3, '0');
+  const next = String(maxNum + 1).padStart(3, '0');
   return `G${next}`;
 };
 
