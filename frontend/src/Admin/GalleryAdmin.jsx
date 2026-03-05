@@ -133,7 +133,11 @@ export default function GalleryAdmin() {
             const data = JSON.parse(xhr.responseText || "{}");
             resolve(data?.imageUrls || []);
           } else {
-            const msg = `Upload failed (HTTP ${xhr.status})`;
+            let msg = `Upload failed (HTTP ${xhr.status})`;
+            try {
+              const errData = JSON.parse(xhr.responseText || "{}");
+              if (errData.message) msg += `: ${errData.message}`;
+            } catch (e) {}
             setUploadError(msg);
             reject(new Error(msg));
           }

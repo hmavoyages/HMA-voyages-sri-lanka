@@ -197,7 +197,14 @@ const AddTestimonialDialog = ({ open, onClose, onCreated }) => {
 
     if (fd.has("avatar") || galleryFiles.length) {
       const res = await fetch(`${API_BASE}/upload`, { method: "POST", body: fd });
-      if (!res.ok) throw new Error(`Upload failed (HTTP ${res.status})`);
+      if (!res.ok) {
+        let errMsg = `Upload failed (HTTP ${res.status})`;
+        try {
+          const errData = await res.json();
+          if (errData.message) errMsg += `: ${errData.message}`;
+        } catch(e) {}
+        throw new Error(errMsg);
+      }
       const data = await res.json();
       result.avatarUrl = data?.avatarUrl || result.avatarUrl;
       result.imageUrls = data?.imageUrls || [];

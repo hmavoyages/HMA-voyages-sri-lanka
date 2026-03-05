@@ -21,17 +21,16 @@ const storage = multer.diskStorage({
   }
 });
 
-const allowed = new Set(['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/gif']);
 const fileFilter = (req, file, cb) => {
-  if (allowed.has(file.mimetype)) cb(null, true);
-  else cb(new Error('Only image files are allowed'));
+  if (file.mimetype.startsWith('image/')) cb(null, true);
+  else cb(new Error(`Only image files are allowed. Received: ${file.mimetype}`));
 };
 
 const IMAGE_EXTS = [".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg"];
 
 router.get("/", async (req, res) => {
   try {
-    const files = await fs.readdir(UPLOADS_DIR);
+    const files = await fs.readdir(UPLOAD_DIR);
     const images = files.filter(f =>
       IMAGE_EXTS.includes(path.extname(f).toLowerCase())
     );
@@ -66,6 +65,7 @@ router.post('/', upload.any(), (req, res) => {
 });
 
 router.use((err, req, res, next) => {
+  console.error("Upload route error:", err);
   if (err && err.name === 'MulterError') return res.status(400).json({ message: err.message });
   if (err) return res.status(400).json({ message: err.message });
   next();
