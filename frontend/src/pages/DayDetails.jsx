@@ -26,6 +26,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 // ✅ Map component (from previous step using Google APIs)
 import GoogleRouteMap from "../pages/GoogleRouteMap";
+import LoadingScreen from "../components/LoadingScreen";
 
 const API_BASE = "https://backend.hmavoyages.com";
 // Keep plus for display, but strip for wa.me links
@@ -136,11 +137,7 @@ export default function ItineraryDetail() {
   const waDigits = React.useMemo(() => (WA_NUMBER || "").replace(/\D/g, ""), []);
 
   if (loading) {
-    return (
-      <Container maxWidth="lg" sx={{ py: 8, display: "grid", placeItems: "center" }}>
-        <CircularProgress />
-      </Container>
-    );
+    return <LoadingScreen fullScreen={false} />;
   }
 
   if (!pkg) {

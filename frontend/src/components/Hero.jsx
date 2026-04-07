@@ -1,13 +1,15 @@
-import React from 'react';
-import styled, { keyframes } from 'styled-components';
-import { Stack,
+import React from "react";
+import styled, { keyframes } from "styled-components";
+import {
+  Stack,
   Typography,
   Box,
   Button,
   Link,
-
- } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 
 const fadeInUp = keyframes`
   from {
@@ -40,13 +42,14 @@ const parallaxMove = keyframes`
 
 const HeroContainer = styled.section`
   background:
-    linear-gradient(135deg,
-      rgba(9,152,209,.8) 0%,
-      rgba(0,255,213,.6) 30%,
-      rgba(212,175,55,.5) 70%,
-      rgba(231,255,144,1) 100%
+    linear-gradient(
+      135deg,
+      rgba(9, 152, 209, 0.8) 0%,
+      rgba(0, 255, 213, 0.6) 30%,
+      rgba(212, 175, 55, 0.5) 70%,
+      rgba(231, 255, 144, 1) 100%
     ),
-    url('https://static01.nyt.com/images/2019/02/03/travel/03frugal-srilanka01/merlin_148552275_74c0d250-949c-46e0-b8a1-e6d499e992cf-superJumbo.jpg');
+    url("https://static01.nyt.com/images/2019/02/03/travel/03frugal-srilanka01/merlin_148552275_74c0d250-949c-46e0-b8a1-e6d499e992cf-superJumbo.jpg");
   background-size: cover;
   background-position: center;
   background-attachment: fixed; /* desktop only */
@@ -62,12 +65,14 @@ const HeroContainer = styled.section`
   @media (max-width: 768px) {
     background-attachment: scroll; /* disable fixed */
     /* optional: reduce motion */
-    &::before, &::after { animation: none; }
+    &::before,
+    &::after {
+      animation: none;
+    }
   }
 
   /* your ::before / ::after remain the same */
 `;
-
 
 const HeroContent = styled.div`
   max-width: 1000px;
@@ -81,21 +86,21 @@ const MainTitle = styled.h1`
   font-size: clamp(3rem, 8vw, 5.5rem);
   margin-bottom: 30px;
   font-weight: 350;
-  text-shadow: 
-    0 4px 12px rgba(0,0,0,0.4),
-    0 8px 24px rgba(0,0,0,0.2);
+  text-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    0 8px 24px rgba(0, 0, 0, 0.2);
   line-height: 1.1;
   letter-spacing: -0.03em;
   background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #ffffff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  
+
   @media (max-width: 768px) {
     font-size: clamp(2.5rem, 7vw, 4rem);
     letter-spacing: -0.02em;
   }
-  
+
   @media (max-width: 480px) {
     font-size: clamp(2rem, 6vw, 3rem);
   }
@@ -120,7 +125,7 @@ const Subtitle = styled.p`
   margin-left: auto;
   margin-right: auto;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
-  
+
   @media (max-width: 768px) {
     font-size: clamp(1.1rem, 2.5vw, 1.4rem);
     margin-bottom: 40px;
@@ -133,7 +138,7 @@ const ButtonGroup = styled.div`
   justify-content: center;
   margin-bottom: 60px;
   flex-wrap: wrap;
-  
+
   @media (max-width: 480px) {
     flex-direction: column;
     align-items: center;
@@ -151,35 +156,40 @@ const CTAButton = styled(Link)`
   font-weight: 600;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 
+  box-shadow:
     0 10px 30px rgba(255, 107, 71, 0.4),
     0 4px 15px rgba(0, 0, 0, 0.1);
   border: 2px solid transparent;
   position: relative;
   overflow: hidden;
-  
+
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
     transition: left 0.6s;
   }
-  
+
   &:hover::before {
     left: 100%;
   }
-  
+
   &:hover {
     transform: translateY(-5px) scale(1.02);
-    box-shadow: 
+    box-shadow:
       0 20px 40px rgba(255, 107, 71, 0.6),
       0 8px 25px rgba(0, 0, 0, 0.15);
   }
-  
+
   @media (max-width: 480px) {
     width: 280px;
     padding: 18px 35px;
@@ -201,32 +211,36 @@ const SecondaryButton = styled(Link)`
   backdrop-filter: blur(20px);
   position: relative;
   overflow: hidden;
-  
+
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
     opacity: 0;
     transition: opacity 0.4s ease;
   }
-  
+
   &:hover::before {
     opacity: 1;
   }
-  
+
   &:hover {
     background: rgba(255, 255, 255, 0.25);
     border-color: white;
     transform: translateY(-5px) scale(1.02);
-    box-shadow: 
+    box-shadow:
       0 20px 40px rgba(255, 255, 255, 0.2),
       0 8px 25px rgba(0, 0, 0, 0.1);
   }
-  
+
   @media (max-width: 480px) {
     width: 280px;
     padding: 16px 33px;
@@ -242,13 +256,13 @@ const Features = styled.div`
   max-width: 900px;
   margin-left: auto;
   margin-right: auto;
-  
+
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
     gap: 25px;
     margin-top: 60px;
   }
-  
+
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -267,7 +281,7 @@ const Feature = styled.div`
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  
+
   &:hover {
     transform: translateY(-8px);
     background: rgba(255, 255, 255, 0.15);
@@ -278,9 +292,9 @@ const Feature = styled.div`
 const FeatureIcon = styled.div`
   font-size: 2.5rem;
   margin-bottom: 15px;
-  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
   animation: ${float} 3s ease-in-out infinite;
-  
+
   &:nth-child(1) {
     animation-delay: 0s;
   }
@@ -300,8 +314,8 @@ const FeatureText = styled.span`
   font-weight: 500;
   text-align: center;
   line-height: 1.4;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-  
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+
   @media (max-width: 480px) {
     font-size: 1rem;
   }
@@ -327,7 +341,7 @@ const ScrollIndicator = styled.div`
   justify-content: center;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  
+
   &:hover {
     opacity: 1;
     transform: translateX(-50%) scale(1.1);
@@ -336,78 +350,102 @@ const ScrollIndicator = styled.div`
 `;
 
 const Hero = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <HeroContainer>
       <HeroContent>
-        <br/>
+        <br />
+        <br />
+        <Box sx={{ mb: 3, display: "flex", justifyContent: "center" }}>
+          <img
+            src="/hma-logo.jpg"
+            alt="HMA Voyages Logo"
+            style={{
+              width: isMobile ? "100px" : "150px",
+              height: isMobile ? "100px" : "150px",
+              borderRadius: "50%",
+              objectFit: "cover",
+              boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
+            }}
+          />
+        </Box>
+
         <MainTitle>
-          Experience the <MainTitleHighlight>charm</MainTitleHighlight> of Sri Lanka
+          Experience the <MainTitleHighlight>charm</MainTitleHighlight> of Sri
+          Lanka
         </MainTitle>
         <Subtitle>
-              We are committed to filling your vacation with beautiful memories and making every moment of it enjoyable. "HAPPY MOMENT ALWAYS "
+          We are committed to filling your vacation with beautiful memories and
+          making every moment of it enjoyable. "HAPPY MOMENT ALWAYS "
         </Subtitle>
-        
-<Stack
-            direction="row"
-            spacing={2}
-            useFlexGap
-            flexWrap="wrap"
-            justifyContent="center"
-            sx={{ mb: { xs: 4, md: 6 } }}
-          >
-            <Button
-              component={RouterLink}
-              to="/tours"
-              size="large"
-              variant="contained"
-              sx={{
-                px: { xs: 3, md: 4 },
-                py: { xs: 1.5, md: 1.75 },
-                borderRadius: 999,
-                fontWeight: 700,
-                textTransform: "none",
-                fontSize: { xs: "1rem", md: "1.1rem" },
-                backgroundImage: "linear-gradient(135deg, #ff6b47 0%, #d4af37 100%)",
-                boxShadow: "0 10px 30px rgba(255,107,71,0.4), 0 4px 15px rgba(0,0,0,0.1)",
-                "&:hover": {
-                  transform: { md: "translateY(-3px)" },
-                  boxShadow: "0 20px 40px rgba(255,107,71,0.6), 0 8px 25px rgba(0,0,0,0.15)",
-                },
-              }}
-            >
-              Explore Tours
-            </Button>
 
-            <Button
-              component="a"
-              href="https://api.whatsapp.com/send/?phone=%2B94789126818&text=Hi%2Ccan%20i%20have%20more%20details%20about%20HMAVoyages%20tour%20packages&type=phone_number&app_absent=0"
-              target="_blank"
-              rel="noopener noreferrer"
-              size="large"
-              variant="outlined"
-              sx={{
-                px: { xs: 3, md: 4 },
-                py: { xs: 1.5, md: 1.75 },
-                borderRadius: 999,
-                fontWeight: 700,
-                textTransform: "none",
-                fontSize: { xs: "1rem", md: "1.1rem" },
-                color: "#fff",
-                borderColor: "rgba(255,255,255,0.85)",
-                background: "rgba(255,255,255,0.15)",
-                backdropFilter: "blur(20px)",
-                "&:hover": {
-                  borderColor: "#fff",
-                  background: "rgba(255,255,255,0.25)",
-                  transform: { md: "translateY(-3px)" },
-                  boxShadow: "0 20px 40px rgba(255,255,255,0.2), 0 8px 25px rgba(0,0,0,0.1)",
-                },
-              }}
-            >
-              Contact Us
-            </Button>
-          </Stack>
-        
+        <Stack
+          direction="row"
+          spacing={2}
+          useFlexGap
+          flexWrap="wrap"
+          justifyContent="center"
+          sx={{ mb: { xs: 4, md: 6 } }}
+        >
+          <Button
+            component={RouterLink}
+            to="/tours"
+            size="large"
+            variant="contained"
+            sx={{
+              px: { xs: 3, md: 4 },
+              py: { xs: 1.5, md: 1.75 },
+              borderRadius: 999,
+              fontWeight: 700,
+              textTransform: "none",
+              fontSize: { xs: "1rem", md: "1.1rem" },
+              backgroundImage:
+                "linear-gradient(135deg, #ff6b47 0%, #d4af37 100%)",
+              boxShadow:
+                "0 10px 30px rgba(255,107,71,0.4), 0 4px 15px rgba(0,0,0,0.1)",
+              "&:hover": {
+                transform: { md: "translateY(-3px)" },
+                boxShadow:
+                  "0 20px 40px rgba(255,107,71,0.6), 0 8px 25px rgba(0,0,0,0.15)",
+              },
+            }}
+          >
+            Explore Tours
+          </Button>
+
+          <Button
+            component="a"
+            href="https://api.whatsapp.com/send/?phone=%2B94789126818&text=Hi%2Ccan%20i%20have%20more%20details%20about%20HMAVoyages%20tour%20packages&type=phone_number&app_absent=0"
+            target="_blank"
+            rel="noopener noreferrer"
+            size="large"
+            variant="outlined"
+            sx={{
+              px: { xs: 3, md: 4 },
+              py: { xs: 1.5, md: 1.75 },
+              borderRadius: 999,
+              fontWeight: 700,
+              textTransform: "none",
+              fontSize: { xs: "1rem", md: "1.1rem" },
+              color: "#fff",
+              borderColor: "rgba(255,255,255,0.85)",
+              background: "rgba(255,255,255,0.15)",
+              backdropFilter: "blur(20px)",
+              "&:hover": {
+                borderColor: "#fff",
+                background: "rgba(255,255,255,0.25)",
+                transform: { md: "translateY(-3px)" },
+                boxShadow:
+                  "0 20px 40px rgba(255,255,255,0.2), 0 8px 25px rgba(0,0,0,0.1)",
+              },
+            }}
+          >
+            Contact Us
+          </Button>
+        </Stack>
+
         <Features>
           <Feature>
             <FeatureIcon>🏛️</FeatureIcon>
@@ -432,4 +470,4 @@ const Hero = () => {
   );
 };
 
-export default Hero; 
+export default Hero;

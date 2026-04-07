@@ -37,9 +37,12 @@ const Footer = () => {
         <Grid container spacing={6}>
           {/* Company Info */}
           <Grid size={{ xs: 12, md: 3 }}> 
-            <Typography variant="h5" gutterBottom sx={{ fontWeight: "bold", mb: 2, color: "#79DBDC" }}>
-              HMA Voyages
-            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+              <img src="/hma-logo.jpg" alt="HMA Voyages Logo" style={{ width: '50px', height: '50px', borderRadius: '50%', objectFit: 'cover' }} />
+              <Typography variant="h5" sx={{ fontWeight: "bold", color: "#79DBDC", mb: 0 }}>
+                HMA Voyages
+              </Typography>
+            </Box>
             <Typography variant="body2" sx={{ mb: 3, lineHeight: 1.8, color: "grey.300" }}>
               We are committed to filling your vacation with beautiful memories and making every moment of it enjoyable. "HAPPY MOMENT ALWAYS "
             </Typography>

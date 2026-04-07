@@ -9,6 +9,7 @@ import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import CategoryRoundedIcon from "@mui/icons-material/CategoryRounded";
+import LoadingScreen from "../components/LoadingScreen";
 
 const API_BASE = "https://backend.hmavoyages.com";
 
@@ -57,6 +58,10 @@ export default function ToursGallery() {
     const imgs = rows[lb.idx]?.images || [];
     setLb((s) => ({ ...s, imgIdx: imgs.length ? (s.imgIdx - 1 + imgs.length) % imgs.length : 0 }));
   };
+
+  if (loading && rows.length === 0) {
+    return <LoadingScreen fullScreen={false} />;
+  }
 
   return (
     <Box component="section" sx={{ py: { xs: 11, md: 12 } }}>

@@ -43,6 +43,16 @@ const Logo = styled(Link)`
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   letter-spacing: -0.02em;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  
+  img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
   
   .highlight {
     background: var(--gradient-accent);
@@ -57,10 +67,18 @@ const Logo = styled(Link)`
   
   @media (max-width: 768px) {
     font-size: 28px;
+    img {
+      width: 35px;
+      height: 35px;
+    }
   }
   
   @media (max-width: 480px) {
     font-size: 24px;
+    img {
+      width: 30px;
+      height: 30px;
+    }
   }
 `;
 
@@ -303,8 +321,9 @@ const Header = () => {
 
       <NavContainer>
         <Logo to="/" onClick={closeMenu}>
-          H<span className="highlight">M</span>Avoyages</Logo>
-
+          <img src="/hma-logo.jpg" alt="HMA Voyages Logo" />
+          H<span className="highlight">M</span>A voyages
+        </Logo>
         <DesktopNav>
           <NavLink
             to="/"

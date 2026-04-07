@@ -9,6 +9,7 @@ import { useTheme } from "@mui/material/styles";
 import { Link as RouterLink } from "react-router-dom";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import MapIcon from "@mui/icons-material/Map";
+import LoadingScreen from "../components/LoadingScreen";
 
 const fadeIn = {
   initial: { opacity: 0, y: 18 },
@@ -49,6 +50,10 @@ export default function TourPackages() {
     return () => clearTimeout(t);
     // eslint-disable-next-line
   }, [q, minDays, maxDays]);
+
+  if (loading && rows.length === 0) {
+    return <LoadingScreen fullScreen={false} />;
+  }
 
   return (
     <Box component="section" sx={{ py: { xs: 6, md: 8 } }}>

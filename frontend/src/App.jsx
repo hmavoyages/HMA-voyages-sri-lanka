@@ -10,6 +10,7 @@ import PracticalInfoPage from './pages/PracticalInfoPage';
 import ContactPage from './pages/ContactPage';
 import GalleryPage from './pages/Gallery';
 import Feedbacks from './components/Testimonials';
+import AboutPage from './pages/AboutPage';
 import './App.css';
 
 import ItinerarySL12Days from './pages/Tours/12 Days';
@@ -69,6 +70,7 @@ function App() {
             <Route path="/admin/gallery" element={<RequireAdmin> <GalleryAdmin /> </RequireAdmin>} />
             <Route path="/admin/tours"element={<RequireAdmin> <TourPackagesAdmin /> </RequireAdmin> } />
             <Route path="/feedbacks" element={<Feedbacks />} />
+            <Route path="/about" element={<AboutPage />} />
             <Route path="/:tourId" element={<ItineraryDetail />} />
             <Route path="/admin/uploads" element={<RequireAdmin> <UploadsGallery /> </RequireAdmin>} />
 
