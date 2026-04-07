@@ -40,53 +40,66 @@ const startServer = async () => {
             Resource: AdminJSMongoose.Resource
         });
 
+        // ── Middleware (must come BEFORE routes so CORS headers are on every response) ──
+        const allowedOrigins = [
+            'https://hmavoyages.com',
+            'https://www.hmavoyages.com',
+            'http://localhost:5173',
+            process.env.CLIENT_URL,
+        ].filter(Boolean);
+
+        app.use(cors({
+            origin: function (origin, callback) {
+                // Allow requests with no origin (mobile apps, curl, server-to-server)
+                if (!origin) return callback(null, true);
+                if (allowedOrigins.includes(origin)) {
+                    return callback(null, true);
+                }
+                return callback(new Error('Not allowed by CORS: ' + origin), false);
+            },
+            credentials: true,
+            methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+            allowedHeaders: ['Content-Type', 'Authorization'],
+        }));
+
+        // Respond to preflight OPTIONS requests immediately
+        app.options('*', cors());
+
+        app.use(morgan('dev'));
+        // NOTE: Do NOT apply express.json() globally — it consumes the raw stream
+        // that multer needs for multipart/form-data requests (causes "Unexpected end of form").
+        // Instead, apply body parsers only to the routes that need them (see below).
+
         const adminJs = new AdminJS({
             resources: [User, Testi, Gallery, TourPackage],
-            rootPath: '/',
+            rootPath: '/admin',  // ✅ MUST NOT be '/' — it would intercept all API routes
         });
 
         // Initialize Router
         const adminRouter = AdminJSExpress.buildRouter(adminJs);
         app.use(adminJs.options.rootPath, adminRouter);
+        // AdminJS is now at: https://backend.hmavoyages.com/admin
 
-        // Middleware
-        app.use(morgan('dev'));
-        app.use(express.json());
-        const allowedOrigins = [
-            'https://hmavoyages.com',
-            'https://www.hmavoyages.com',
-            'http://localhost:5173',
-            process.env.CLIENT_URL || '*'
-        ];
-
-        app.use(cors({
-            origin: function (origin, callback) {
-                if (!origin) return callback(null, true);
-                if (allowedOrigins.indexOf(origin) === -1 && allowedOrigins.indexOf('*') === -1) {
-                    // allow * if present in allowedOrigins
-                    // actually if '*' is in list, we can just let it pass, but typically we want specific origins in production
-                    // For now, let's just stick to the specific list + whatever is in env
-                    
-                    // Simple check
-                     var msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-                     return callback(new Error(msg), false);
-                }
-                return callback(null, true);
-            },
-            credentials: true
-        }));
+        // Body parsers scoped to JSON-only routes (excluded from /upload which uses multer)
+        const jsonParser = express.json();
+        const urlencodedParser = express.urlencoded({ extended: true });
 
         // Routes
-        app.use('/users', userRoutes);
-        app.use('/testimonials', testiRoutes);
-        app.use('/gallery', galleryRoutes);
-        app.use('/packages', tourPackageRoutes);
+        app.use('/users',        jsonParser, urlencodedParser, userRoutes);
+        app.use('/testimonials', jsonParser, urlencodedParser, testiRoutes);
+        app.use('/gallery',      jsonParser, urlencodedParser, galleryRoutes);
+        app.use('/packages',     jsonParser, urlencodedParser, tourPackageRoutes);
         app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-        app.use('/upload', uploadRoutes);
+        app.use('/upload', uploadRoutes); // multer handles its own body parsing — NO json/urlencoded here
 
-        // Error handling
+        // Global error handler — logs full detail so you can diagnose 500s from server logs
         app.use((err, req, res, next) => {
-            console.error(err.stack);
+            console.error('━━━ UNHANDLED ERROR ━━━');
+            console.error('Route  :', req.method, req.originalUrl);
+            console.error('Body   :', JSON.stringify(req.body));
+            console.error('Message:', err.message);
+            console.error('Stack  :', err.stack);
+            console.error('━━━━━━━━━━━━━━━━━━━━━━');
             res.status(500).json({ message: 'Something went wrong', error: err.message });
         });
 

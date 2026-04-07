@@ -2,13 +2,14 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
-const fs = require('fs');
+const fs = require('fs').promises;  // ✅ use promise-based fs
+const fsSync = require('fs');       // only for mkdirSync
 
 
 const router = express.Router();
 
 const UPLOAD_DIR = path.join(__dirname, '..', 'uploads');
-fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+fsSync.mkdirSync(UPLOAD_DIR, { recursive: true }); // sync is fine at startup
 
 const API_BASE = "https://backend.hmavoyages.com"; // same base you used
 
