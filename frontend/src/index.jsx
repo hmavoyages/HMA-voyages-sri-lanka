@@ -9,7 +9,7 @@ import "leaflet/dist/leaflet.css";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <GoogleOAuthProvider clientId="400890388867-birpo9rqf2867h0trm2ad7e4fgpcro0s.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId="713904488947-poeoobuoo3octn3inkr4n71t4aqbn3ni.apps.googleusercontent.com">
       <React.Suspense fallback={<div />}>
         <App />
       </React.Suspense>
