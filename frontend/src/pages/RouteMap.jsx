@@ -1,6 +1,13 @@
 // src/components/RouteMap.jsx
 import React, { useMemo, useEffect } from "react";
-import { MapContainer, TileLayer, Polyline, Marker, Popup, useMap } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Polyline,
+  Marker,
+  Popup,
+  useMap,
+} from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -19,22 +26,22 @@ L.Icon.Default.mergeOptions({
 
 // Minimal, curated coordinates for common Sri Lankan points
 const COORDS = {
-  "Airport": [7.1803, 79.8843],           // CMB area
-  "Negombo": [7.2086, 79.8358],
-  "Sigiriya": [7.9570, 80.7603],
-  "Polonnaruwa": [7.9396, 81.0031],
-  "Matale": [7.4675, 80.6234],
-  "Kandy": [7.2906, 80.6337],
+  Airport: [7.1803, 79.8843], // CMB area
+  Negombo: [7.2086, 79.8358],
+  Sigiriya: [7.957, 80.7603],
+  Polonnaruwa: [7.9396, 81.0031],
+  Matale: [7.4675, 80.6234],
+  Kandy: [7.2906, 80.6337],
   "Nuwara Eliya": [6.9497, 80.7891],
-  "Ella": [6.8667, 81.0460],
-  "Koslanda": [6.7597, 81.0020],
-  "Udawalawe": [6.4411, 80.8889],
-  "Tissamaharama": [6.2776, 81.2853],
-  "Mirissa": [5.9485, 80.4580],
-  "Galle": [6.0329, 80.2168],
-  "Ahungalla": [6.3457, 80.0377],
-  "Colombo": [6.9271, 79.8612],
-  "Hotel": null,             // fallback to Colombo
+  Ella: [6.8667, 81.046],
+  Koslanda: [6.7597, 81.002],
+  Udawalawe: [6.4411, 80.8889],
+  Tissamaharama: [6.2776, 81.2853],
+  Mirissa: [5.9485, 80.458],
+  Galle: [6.0329, 80.2168],
+  Ahungalla: [6.3457, 80.0377],
+  Colombo: [6.9271, 79.8612],
+  Hotel: null, // fallback to Colombo
   "—": null,
 };
 
@@ -42,18 +49,18 @@ const COORDS = {
 const ALIASES = {
   "Udawalawe/Tissa": "Udawalawe",
   "Udawalawe / Tissamaharama": "Udawalawe",
-  "Tissa": "Tissamaharama",
+  Tissa: "Tissamaharama",
   "Ahungalla/Negombo": "Ahungalla",
   "Around Mirissa": "Mirissa",
   "Mirissa Area": "Mirissa",
   "Airport Drop": "Airport",
-  "Hotel": "Hotel",
+  Hotel: "Hotel",
 };
 
 function normalizeStop(raw) {
   if (!raw) return null;
   let s = raw
-    .replace(/\(.*?\)/g, "")  // remove parenthetical notes like (~3h)
+    .replace(/\(.*?\)/g, "") // remove parenthetical notes like (~3h)
     .replace(/\s+/g, " ")
     .trim();
 
@@ -73,7 +80,7 @@ function splitRoute(routeStr) {
   // Split on common arrows / separators
   return routeStr
     .split(/→|↔|–|-|>/g)
-    .map(s => normalizeStop(s))
+    .map((s) => normalizeStop(s))
     .filter(Boolean);
 }
 
@@ -120,24 +127,27 @@ export default function RouteMap({ days = [], height = 460 }) {
       });
 
       // Remember an anchor stop for this day (first item with coords)
-      const firstWithCoord = parts.find(p => toLatLng(p));
-      if (firstWithCoord) labeled.push({
-        idx: idx + 1,
-        name: firstWithCoord,
-        title: d.title || `Day ${d.day || idx + 1}`,
-        stay: d.stay,
-        route: d.route
-      });
+      const firstWithCoord = parts.find((p) => toLatLng(p));
+      if (firstWithCoord)
+        labeled.push({
+          idx: idx + 1,
+          name: firstWithCoord,
+          title: d.title || `Day ${d.day || idx + 1}`,
+          stay: d.stay,
+          route: d.route,
+        });
     });
 
     // Deduplicate consecutive
-    const compactStops = stops.filter((s, i, arr) => i === 0 || s !== arr[i - 1]);
+    const compactStops = stops.filter(
+      (s, i, arr) => i === 0 || s !== arr[i - 1],
+    );
 
     const nodesLL = compactStops
-      .map(s => ({ name: s, ll: toLatLng(s) }))
-      .filter(n => n.ll);
+      .map((s) => ({ name: s, ll: toLatLng(s) }))
+      .filter((n) => n.ll);
 
-    const pathLL = nodesLL.map(n => n.ll);
+    const pathLL = nodesLL.map((n) => n.ll);
 
     return { path: pathLL, nodes: nodesLL, labeledStops: labeled };
   }, [days]);
@@ -153,7 +163,7 @@ export default function RouteMap({ days = [], height = 460 }) {
         <TileLayer
           // Free OSM tiles
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; OpenStreetMap contributors'
+          attribution="&copy; OpenStreetMap contributors"
         />
 
         {/* Fit map to bounds */}
@@ -171,9 +181,7 @@ export default function RouteMap({ days = [], height = 460 }) {
               <div style={{ fontWeight: 700, marginBottom: 4 }}>
                 {i + 1}. {n.name}
               </div>
-              <div style={{ fontSize: 13, opacity: 0.85 }}>
-                Stop in route
-              </div>
+              <div style={{ fontSize: 13, opacity: 0.85 }}>Stop in route</div>
             </Popup>
           </Marker>
         ))}
@@ -185,9 +193,13 @@ export default function RouteMap({ days = [], height = 460 }) {
           return (
             <Marker key={`d-${i}-${d.idx}`} position={ll}>
               <Popup>
-                <div style={{ fontWeight: 800 }}>Day {d.idx}: {d.title}</div>
+                <div style={{ fontWeight: 800 }}>
+                  Day {d.idx}: {d.title}
+                </div>
                 {d.stay && d.stay !== "—" && (
-                  <div style={{ marginTop: 4, fontSize: 13 }}>Overnight: <b>{d.stay}</b></div>
+                  <div style={{ marginTop: 4, fontSize: 13 }}>
+                    Overnight: <b>{d.stay}</b>
+                  </div>
                 )}
                 {d.route && (
                   <div style={{ marginTop: 6, fontSize: 13, opacity: 0.85 }}>

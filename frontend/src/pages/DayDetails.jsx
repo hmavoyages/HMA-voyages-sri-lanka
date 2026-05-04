@@ -1,11 +1,24 @@
 // src/pages/ItineraryDetail.jsx
 import React from "react";
-import { Grid } from '@mui/material';
+import { Grid } from "@mui/material";
 import {
-  Box, Container, Typography, Chip, Stack,
-  Accordion, AccordionSummary, AccordionDetails,
-  Card, CardContent, CardMedia, Divider, Button,
-  Tooltip, useMediaQuery, Fab, CircularProgress
+  Box,
+  Container,
+  Typography,
+  Chip,
+  Stack,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Card,
+  CardContent,
+  CardMedia,
+  Divider,
+  Button,
+  Tooltip,
+  useMediaQuery,
+  Fab,
+  CircularProgress,
 } from "@mui/material";
 import { useParams, Link as RouterLink } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
@@ -52,7 +65,10 @@ const baseSliderSettings = {
 
 // 🔒 Robust placeholder generators (no flaky remote host)
 const phSVG = (label) => {
-  const text = (label || "HMA Voyages").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const text = (label || "HMA Voyages")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
   const svg = `
     <svg xmlns='http://www.w3.org/2000/svg' width='1200' height='800'>
       <defs>
@@ -106,7 +122,9 @@ export default function ItineraryDetail() {
     (async () => {
       setLoading(true);
       try {
-        const res = await fetch(`${API_BASE}/packages/${encodeURIComponent(tourId)}`);
+        const res = await fetch(
+          `${API_BASE}/packages/${encodeURIComponent(tourId)}`,
+        );
         const data = await res.json();
         const p = data?.data ?? data;
         setPkg(p ?? null);
@@ -134,7 +152,10 @@ export default function ItineraryDetail() {
   };
 
   // sanitize WA number for wa.me (digits only)
-  const waDigits = React.useMemo(() => (WA_NUMBER || "").replace(/\D/g, ""), []);
+  const waDigits = React.useMemo(
+    () => (WA_NUMBER || "").replace(/\D/g, ""),
+    [],
+  );
 
   if (loading) {
     return <LoadingScreen fullScreen={false} />;
@@ -143,8 +164,12 @@ export default function ItineraryDetail() {
   if (!pkg) {
     return (
       <Container maxWidth="lg" sx={{ py: 8, textAlign: "center" }}>
-        <Typography variant="h5" fontWeight={800}>Package not found</Typography>
-        <Button variant="outlined" sx={{ mt: 2 }} component={RouterLink} to="/">Back to Packages</Button>
+        <Typography variant="h5" fontWeight={800}>
+          Package not found
+        </Typography>
+        <Button variant="outlined" sx={{ mt: 2 }} component={RouterLink} to="/">
+          Back to Packages
+        </Button>
       </Container>
     );
   }
@@ -154,10 +179,16 @@ export default function ItineraryDetail() {
       ? pkg.heroImages
       : [pkg.cover].filter(Boolean);
 
-  const safeHeroImages = (heroImages && heroImages.length ? heroImages : [ph(pkg.packageName || "Itinerary")]);
+  const safeHeroImages =
+    heroImages && heroImages.length
+      ? heroImages
+      : [ph(pkg.packageName || "Itinerary")];
 
-  const dayCount = Number(pkg.dayCount) || (pkg.days?.length || 1);
-  const dayCountLabel = dayCount === 1 ? "Day Tour" : `${dayCount} Days / ${Math.max(dayCount - 1, 1)} Nights`;
+  const dayCount = Number(pkg.dayCount) || pkg.days?.length || 1;
+  const dayCountLabel =
+    dayCount === 1
+      ? "Day Tour"
+      : `${dayCount} Days / ${Math.max(dayCount - 1, 1)} Nights`;
 
   return (
     <Box sx={{ bgcolor: "background.default", color: "text.primary" }}>
@@ -177,12 +208,23 @@ export default function ItineraryDetail() {
       >
         <Slider {...heroSlider}>
           {safeHeroImages.map((src, i) => (
-            <Box key={i} sx={{ position: "relative", height: { xs: 360, sm: 420, md: 520 } }}>
+            <Box
+              key={i}
+              sx={{
+                position: "relative",
+                height: { xs: 360, sm: 420, md: 520 },
+              }}
+            >
               <SafeImg
                 src={src}
                 fallback={ph(pkg.packageName || "Itinerary")}
                 alt={`${pkg.packageName} hero ${i + 1}`}
-                sx={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  display: "block",
+                }}
               />
               <Box
                 sx={{
@@ -226,15 +268,28 @@ export default function ItineraryDetail() {
                 height: { xs: 28, sm: 32 },
               }}
             />
-            <Typography variant={isXs ? "h4" : "h3"} fontWeight={800} color="#fff" sx={{ lineHeight: 1.15 }}>
+            <Typography
+              variant={isXs ? "h4" : "h3"}
+              fontWeight={800}
+              color="#fff"
+              sx={{ lineHeight: 1.15 }}
+            >
               {pkg.packageName}
             </Typography>
             {!!pkg.description && (
-              <Typography variant={isXs ? "body1" : "h6"} color="#f5f5f5" sx={{ mt: 0.75, pr: { md: 6 } }}>
+              <Typography
+                variant={isXs ? "body1" : "h6"}
+                color="#f5f5f5"
+                sx={{ mt: 0.75, pr: { md: 6 } }}
+              >
                 {pkg.description}
               </Typography>
             )}
-            <Stack direction="row" spacing={1.25} sx={{ mt: 2, flexWrap: "wrap" }}>
+            <Stack
+              direction="row"
+              spacing={1.25}
+              sx={{ mt: 2, flexWrap: "wrap" }}
+            >
               <Button
                 variant="contained"
                 color="warning"
@@ -266,16 +321,42 @@ export default function ItineraryDetail() {
       <Container maxWidth="lg" sx={{ py: { xs: 3, md: 6 } }}>
         <Grid container spacing={{ xs: 1.5, md: 2 }}>
           {[
-            { icon: <DirectionsCarIcon />, text: "Private AC vehicle & driver-guide" },
+            {
+              icon: <DirectionsCarIcon />,
+              text: "Private AC vehicle & driver-guide",
+            },
             { icon: <PeopleIcon />, text: "English or French-speaking guides" },
-            { icon: <ScheduleIcon />, text: pkg.dayCount === 1 ? "Day tour pace" : "Balanced multi-day pace" },
-            { icon: <MapIcon />, text: "Handpicked experiences & scenic routes" },
+            {
+              icon: <ScheduleIcon />,
+              text:
+                pkg.dayCount === 1
+                  ? "Day tour pace"
+                  : "Balanced multi-day pace",
+            },
+            {
+              icon: <MapIcon />,
+              text: "Handpicked experiences & scenic routes",
+            },
           ].map((h, i) => (
             <Grid key={i} size={{ xs: 12, sm: 6, md: 3 }}>
-              <Card component={motion.div} {...fadeIn} elevation={1} sx={{ height: "100%", borderRadius: 3, p: { xs: 0.25, md: 0 } }}>
-                <CardContent sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                  <Box sx={{ fontSize: 28, display: "grid", placeItems: "center" }}>{h.icon}</Box>
-                  <Typography variant="subtitle1" sx={{ fontSize: { xs: 14.5, md: 16 } }}>
+              <Card
+                component={motion.div}
+                {...fadeIn}
+                elevation={1}
+                sx={{ height: "100%", borderRadius: 3, p: { xs: 0.25, md: 0 } }}
+              >
+                <CardContent
+                  sx={{ display: "flex", alignItems: "center", gap: 1.5 }}
+                >
+                  <Box
+                    sx={{ fontSize: 28, display: "grid", placeItems: "center" }}
+                  >
+                    {h.icon}
+                  </Box>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ fontSize: { xs: 14.5, md: 16 } }}
+                  >
                     {h.text}
                   </Typography>
                 </CardContent>
@@ -287,7 +368,11 @@ export default function ItineraryDetail() {
 
       {/* ROUTE MAP (Google) */}
       <Container maxWidth="lg" sx={{ pb: { xs: 3, md: 6 } }} id="route">
-        <Typography variant="h4" fontWeight={800} sx={{ mb: { xs: 1.5, md: 2.5 } }}>
+        <Typography
+          variant="h4"
+          fontWeight={800}
+          sx={{ mb: { xs: 1.5, md: 2.5 } }}
+        >
           Route Map
         </Typography>
 
@@ -300,16 +385,32 @@ export default function ItineraryDetail() {
           />
         </Card>
 
-        <Stack direction="row" spacing={1.25} sx={{ mt: 1.5, flexWrap: "wrap" }}>
-          <Chip icon={<MapIcon />} label="Interactive • Drag to explore" size="small" />
-          <Chip icon={<AccessTimeIcon />} label={`${dayCount} day itinerary`} size="small" />
+        <Stack
+          direction="row"
+          spacing={1.25}
+          sx={{ mt: 1.5, flexWrap: "wrap" }}
+        >
+          <Chip
+            icon={<MapIcon />}
+            label="Interactive • Drag to explore"
+            size="small"
+          />
+          <Chip
+            icon={<AccessTimeIcon />}
+            label={`${dayCount} day itinerary`}
+            size="small"
+          />
         </Stack>
       </Container>
 
       {/* ITINERARY */}
       <Box id="plan" sx={{ bgcolor: "background.paper", py: { xs: 3, md: 6 } }}>
         <Container maxWidth="lg">
-          <Typography variant="h4" fontWeight={800} sx={{ mb: { xs: 2, md: 3 } }}>
+          <Typography
+            variant="h4"
+            fontWeight={800}
+            sx={{ mb: { xs: 2, md: 3 } }}
+          >
             Day-by-Day Itinerary
           </Typography>
 
@@ -328,17 +429,47 @@ export default function ItineraryDetail() {
                 }}
               >
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Stack direction="row" spacing={1.25} alignItems="center" flexWrap="wrap" sx={{ width: "100%" }}>
-                    <Chip label={`Day ${d.day ?? d.n ?? idx + 1}`} color="warning" size="small" sx={{ fontWeight: 700 }} />
-                    <Typography variant="subtitle1" fontWeight={800} sx={{ fontSize: { xs: 16.5, md: 18 } }}>
+                  <Stack
+                    direction="row"
+                    spacing={1.25}
+                    alignItems="center"
+                    flexWrap="wrap"
+                    sx={{ width: "100%" }}
+                  >
+                    <Chip
+                      label={`Day ${d.day ?? d.n ?? idx + 1}`}
+                      color="warning"
+                      size="small"
+                      sx={{ fontWeight: 700 }}
+                    />
+                    <Typography
+                      variant="subtitle1"
+                      fontWeight={800}
+                      sx={{ fontSize: { xs: 16.5, md: 18 } }}
+                    >
                       {d.title}
                     </Typography>
-                    <Stack direction="row" spacing={1} alignItems="center" sx={{ ml: "auto" }}>
+                    <Stack
+                      direction="row"
+                      spacing={1}
+                      alignItems="center"
+                      sx={{ ml: "auto" }}
+                    >
                       {d.stay && d.stay !== "—" && (
-                        <Chip icon={<LocalHotelIcon />} label={`Stay: ${d.stay}`} size="small" sx={{ maxWidth: { xs: 160, sm: "none" } }} />
+                        <Chip
+                          icon={<LocalHotelIcon />}
+                          label={`Stay: ${d.stay}`}
+                          size="small"
+                          sx={{ maxWidth: { xs: 160, sm: "none" } }}
+                        />
                       )}
                       {d.route && (
-                        <Chip icon={<DirectionsCarIcon />} label={d.route} size="small" sx={{ maxWidth: { xs: 260, sm: "none" } }} />
+                        <Chip
+                          icon={<DirectionsCarIcon />}
+                          label={d.route}
+                          size="small"
+                          sx={{ maxWidth: { xs: 260, sm: "none" } }}
+                        />
                       )}
                     </Stack>
                   </Stack>
@@ -348,16 +479,31 @@ export default function ItineraryDetail() {
                   <Grid container spacing={{ xs: 1.5, md: 3 }}>
                     <Grid size={{ xs: 12, md: 3 }}>
                       <Slider {...daySlider}>
-                        {(d.images && d.images.length ? d.images : [ph(d.title || "Day")]).map((src, i) => (
+                        {(d.images && d.images.length
+                          ? d.images
+                          : [ph(d.title || "Day")]
+                        ).map((src, i) => (
                           <Box key={i} sx={{ px: { xs: 0.5, md: 0 } }}>
-                            <Card sx={{ borderRadius: 3, overflow: "hidden", aspectRatio: { xs: "16/16", md: "9/9" } }}>
+                            <Card
+                              sx={{
+                                borderRadius: 3,
+                                overflow: "hidden",
+                                aspectRatio: { xs: "16/16", md: "9/9" },
+                              }}
+                            >
                               <CardMedia
                                 component={() => (
                                   <SafeImg
                                     src={src}
-                                    fallback={ph(d.title || `Day ${d.day ?? idx + 1}`)}
-                                    alt={`Day ${(d.day ?? idx + 1)} image ${i + 1}`}
-                                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                    fallback={ph(
+                                      d.title || `Day ${d.day ?? idx + 1}`,
+                                    )}
+                                    alt={`Day ${d.day ?? idx + 1} image ${i + 1}`}
+                                    style={{
+                                      width: "100%",
+                                      height: "100%",
+                                      objectFit: "cover",
+                                    }}
                                   />
                                 )}
                               />
@@ -367,29 +513,60 @@ export default function ItineraryDetail() {
                       </Slider>
                     </Grid>
                     <Grid size={{ xs: 12, md: 6 }}>
-                      <Card sx={{ borderRadius: 3, height: "100%" }} elevation={0}>
+                      <Card
+                        sx={{ borderRadius: 3, height: "100%" }}
+                        elevation={0}
+                      >
                         <CardContent sx={{ pb: { xs: 1.5, md: 2 } }}>
                           <Typography
                             variant="subtitle2"
                             fontWeight={800}
                             gutterBottom
-                            sx={{ letterSpacing: 0.2, textTransform: "uppercase", color: "text.secondary" }}
+                            sx={{
+                              letterSpacing: 0.2,
+                              textTransform: "uppercase",
+                              color: "text.secondary",
+                            }}
                           >
                             Plan
                           </Typography>
                           <Stack spacing={1.1}>
                             {(d.plan ?? d.bullets ?? []).map((b, i) => (
-                              <Stack key={i} direction="row" spacing={1.25} alignItems="flex-start">
-                                <Box sx={{ mt: "7px", width: 8, height: 8, borderRadius: "50%", bgcolor: "warning.main", flex: "0 0 auto" }} />
-                                <Typography sx={{ fontSize: { xs: 14.5, md: 16 } }}>{b}</Typography>
+                              <Stack
+                                key={i}
+                                direction="row"
+                                spacing={1.25}
+                                alignItems="flex-start"
+                              >
+                                <Box
+                                  sx={{
+                                    mt: "7px",
+                                    width: 8,
+                                    height: 8,
+                                    borderRadius: "50%",
+                                    bgcolor: "warning.main",
+                                    flex: "0 0 auto",
+                                  }}
+                                />
+                                <Typography
+                                  sx={{ fontSize: { xs: 14.5, md: 16 } }}
+                                >
+                                  {b}
+                                </Typography>
                               </Stack>
                             ))}
                           </Stack>
                           {d.stay && d.stay !== "—" && (
                             <>
                               <Divider sx={{ my: { xs: 1.25, md: 2 } }} />
-                              <Stack direction="row" spacing={1.25} alignItems="center">
-                                <Typography variant="body2">Overnight in <strong>{d.stay}</strong></Typography>
+                              <Stack
+                                direction="row"
+                                spacing={1.25}
+                                alignItems="center"
+                              >
+                                <Typography variant="body2">
+                                  Overnight in <strong>{d.stay}</strong>
+                                </Typography>
                               </Stack>
                             </>
                           )}
@@ -402,7 +579,11 @@ export default function ItineraryDetail() {
             ))}
           </Stack>
 
-          <Stack direction={{ xs: "column", sm: "row" }} spacing={1.25} sx={{ mt: { xs: 2.5, md: 4 } }}>
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            spacing={1.25}
+            sx={{ mt: { xs: 2.5, md: 4 } }}
+          >
             <Button
               variant="contained"
               color="warning"
@@ -455,7 +636,13 @@ export default function ItineraryDetail() {
             >
               Chat on WhatsApp
             </Button>
-            <Button fullWidth variant="outlined" startIcon={<MapIcon />} href="#plan" sx={{ fontWeight: 700, borderRadius: 2 }}>
+            <Button
+              fullWidth
+              variant="outlined"
+              startIcon={<MapIcon />}
+              href="#plan"
+              sx={{ fontWeight: 700, borderRadius: 2 }}
+            >
               View Plan
             </Button>
           </Stack>
@@ -468,7 +655,13 @@ export default function ItineraryDetail() {
           <Fab
             color="warning"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            sx={{ position: "fixed", right: 16, bottom: { xs: 76, md: 24 }, zIndex: 20, boxShadow: 4 }}
+            sx={{
+              position: "fixed",
+              right: 16,
+              bottom: { xs: 76, md: 24 },
+              zIndex: 20,
+              boxShadow: 4,
+            }}
             aria-label="Back to top"
           >
             <ArrowUpwardIcon />
